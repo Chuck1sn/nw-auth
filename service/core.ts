@@ -15,7 +15,7 @@ export abstract class OidcService {
 
   abstract getUserInfo (
     accessToken: string,
-    openid: string
+    openid?: string
   ): Promise<OidcResp<'userInfo'>>
 
   processOidc: OidcFLow = async (redirect: string, code?: string, state?: string) => {

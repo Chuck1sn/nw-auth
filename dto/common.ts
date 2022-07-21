@@ -1,4 +1,5 @@
 import * as WechatDto from './wechat'
+import * as SinaDto from './sina'
 
 export interface OidcResp<E extends keyof FlowResult> {
   type: E
@@ -7,6 +8,14 @@ export interface OidcResp<E extends keyof FlowResult> {
 
 export interface FlowResult {
   redirect: string
-  accessToken: WechatDto.AccessTokenResp
-  userInfo: WechatDto.UserInfoResp
+  accessToken: PlatformAccessTokenResp
+  userInfo: PlatformUserInfoResp
+}
+
+export interface PlatformAccessTokenResp extends WechatDto.AccessTokenResp, SinaDto.AccessTokenResp {
+
+}
+
+export interface PlatformUserInfoResp extends WechatDto.UserInfoResp, SinaDto.UserInfoResp {
+
 }

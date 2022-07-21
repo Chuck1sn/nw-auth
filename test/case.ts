@@ -15,7 +15,8 @@ describe('oidc state cache', function () {
 })
 
 describe('wechat oidc flow', function () {
-  const testDouble = new WechatOidc('appId', 'appSecret')
+  const callback = 'http://localhost/callback'
+  const testDouble = new WechatOidc('appId', 'appSecret', callback)
   let mockState
   let mockCode
 
@@ -23,8 +24,7 @@ describe('wechat oidc flow', function () {
     let redirectUrl
     let state
     it('redirect user to wechat login page', async function () {
-      const callback = 'http://localhost/callback'
-      return await testDouble.redirectLogin(callback).then((result) => {
+      return await testDouble.redirectLogin().then((result) => {
         assert.equal(result.type, 'redirect')
         redirectUrl = new URL(result.result)
         assert.equal(redirectUrl.searchParams.get('redirect_uri'), callback)
