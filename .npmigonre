@@ -1,0 +1,17 @@
+*.ts
+!*.d.ts
+test/
+.git/
+.vscode/
+node_modules/
+.gitignore
+.npmignore
+.editorconfig
+tslint.json
+tsconfig.json
+*.log
+.eslintrc.json
+.eslintigonre
+.DS_Store
+.history
+*.code-workspace

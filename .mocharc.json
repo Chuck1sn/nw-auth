@@ -1,0 +1,8 @@
+{
+  "extensions": ["ts"],
+  "node-option": [
+    "require=ts-node/register",
+    "experimental-specifier-resolution=node",
+    "loader=ts-node/esm"
+  ]
+}
