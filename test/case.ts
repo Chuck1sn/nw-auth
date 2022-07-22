@@ -41,8 +41,6 @@ describe('wechat oidc flow', function () {
     })
   })
   describe('wechat oidc backend channel', function () {
-    let accessToken
-    let openid
     describe('get access token by state and code', function () {
       it('invalid state will get a invalid state error', async function () {
         // mock incorrect state
