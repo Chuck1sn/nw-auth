@@ -1,21 +1,24 @@
 import * as WechatDto from './wechat'
 import * as SinaDto from './sina'
 
-export interface OidcResp<E extends keyof FlowResult> {
+export type Platform = 'wechat' | 'sina'
+export interface OidcResp<E extends keyof FlowResult<P>, P extends Platform> {
   type: E
-  result: FlowResult[E]
+  result: FlowResult<P>[E]
 }
 
-export interface FlowResult {
+export interface FlowResult<P extends Platform> {
   redirect: string
-  accessToken: PlatformAccessTokenResp
-  userInfo: PlatformUserInfoResp
+  accessToken: PlatformAccessTokenResp[P]
+  userInfo: PlatformUserInfoResp[P]
 }
 
-export interface PlatformAccessTokenResp extends WechatDto.AccessTokenResp, SinaDto.AccessTokenResp {
-
+export interface PlatformAccessTokenResp {
+  wechat: WechatDto.AccessTokenResp
+  sina: SinaDto.AccessTokenResp
 }
 
-export interface PlatformUserInfoResp extends WechatDto.UserInfoResp, SinaDto.UserInfoResp {
-
+export interface PlatformUserInfoResp {
+  wechat: WechatDto.UserInfoResp
+  sina: SinaDto.UserInfoResp
 }

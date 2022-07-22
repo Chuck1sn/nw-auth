@@ -5,6 +5,7 @@ import { OidcServiceSpy } from './spy'
 import { OidcError } from '../error/error'
 import { faker } from '@faker-js/faker'
 import sinon from 'sinon'
+import { OidcResp } from '../dto/common'
 
 describe('oidc state cache', function () {
   it('create state and check ext', function () {
@@ -111,7 +112,18 @@ describe('wechat oidc flow', function () {
             }
           })
         )
-        return await getUserInfo(accessToken, openid).then((resp) => {
+        const resp = {
+          type: 'accessToken',
+          result: {
+            access_token: faker.datatype.string(),
+            expires_in: faker.datatype.number(),
+            refresh_token: faker.datatype.string(),
+            openid: faker.datatype.string(),
+            scope: faker.datatype.string(),
+            unionid: faker.datatype.string()
+          }
+        } as const
+        return await getUserInfo(resp).then((resp) => {
           getUserInfo.restore()
           assert.equal(resp.type, 'userInfo')
           assert.isNotNull(resp.result.unionid)

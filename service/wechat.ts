@@ -4,6 +4,8 @@ import { url as wechatApi } from '../data/wechat'
 import { OidcResp } from '../dto/common'
 import { OidcError } from '../error/error'
 
+type Platform = 'wechat'
+
 export class WechatOidc extends OidcService {
   private readonly appId
   private readonly secret
@@ -15,7 +17,7 @@ export class WechatOidc extends OidcService {
     this.redirectUrl = redirectUrl
   }
 
-  async redirectLogin (): Promise<OidcResp<'redirect'>> {
+  async redirectLogin (): Promise<OidcResp<'redirect', Platform>> {
     const redirectLoginUrl = new URL(wechatApi.redirectLogin)
     const param: WechatDto.RedirectUrl = {
       appid: this.appId,
@@ -36,7 +38,7 @@ export class WechatOidc extends OidcService {
   async getAccessToken (
     code: string,
     state: string
-  ): Promise<OidcResp<'accessToken'>> {
+  ): Promise<OidcResp<'accessToken', Platform>> {
     if (!super.checkState(state)) {
       return await Promise.reject(new OidcError('state invalid', 'AccessTokenError'))
     }
@@ -69,13 +71,12 @@ export class WechatOidc extends OidcService {
   }
 
   async getUserInfo (
-    accessToken: string,
-    openid: string
-  ): Promise<OidcResp<'userInfo'>> {
+    resp: OidcResp<'accessToken', Platform>
+  ): Promise<OidcResp<'userInfo', Platform>> {
     const userInfoUrl = new URL(wechatApi.userInfo)
     const param: WechatDto.UserInfoReq = {
-      access_token: accessToken,
-      openid,
+      access_token: resp.result.access_token,
+      openid: resp.result.openid,
       lang: 'zh_CN'
     }
     Object.entries(param).forEach(([k, v]) => {

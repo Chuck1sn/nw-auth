@@ -4,6 +4,7 @@ import { url as sinaApi } from '../data/sina'
 import * as SinaDto from '../dto/sina'
 import { OidcError } from '../error/error'
 
+type Platform = 'sina'
 export class SinaOidc extends OidcService {
   private readonly clientId: string
   private readonly clientSecret: string
@@ -16,7 +17,7 @@ export class SinaOidc extends OidcService {
     this.redirectUrl = redirectUrl
   }
 
-  async redirectLogin (): Promise<OidcResp<'redirect'>> {
+  async redirectLogin (): Promise<OidcResp<'redirect', Platform>> {
     const redirectLoginUrl = new URL(sinaApi.redirectLogin)
     const param: SinaDto.RedirectUrl = {
       client_id: this.clientId,
@@ -32,7 +33,7 @@ export class SinaOidc extends OidcService {
     })
   }
 
-  async getAccessToken (code: string, state: string): Promise<OidcResp<'accessToken'>> {
+  async getAccessToken (code: string, state: string): Promise<OidcResp<'accessToken', Platform>> {
     if (!super.checkState(state)) {
       return await Promise.reject(new OidcError('state invalid', 'AccessTokenError'))
     }
@@ -65,9 +66,9 @@ export class SinaOidc extends OidcService {
     })
   }
 
-  async getUserInfo (accessToken: string): Promise<OidcResp<'userInfo'>> {
+  async getUserInfo (resp: OidcResp<'accessToken', Platform>): Promise<OidcResp<'userInfo', Platform>> {
     const userInfoUrl = new URL(sinaApi.userInfo)
-    const param: SinaDto.UserInfoReq = accessToken
+    const param: SinaDto.UserInfoReq = resp.result.access_token
     Object.entries(param).forEach(([k, v]) => {
       userInfoUrl.searchParams.append(k, v)
     })
