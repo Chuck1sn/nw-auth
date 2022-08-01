@@ -1,11 +1,14 @@
 import { describe, it } from 'mocha'
-import { assert } from 'chai'
 import { WechatOidc } from '../service/wechat'
 import { OidcServiceSpy } from './spy'
 import { OidcError } from '../error/error'
 import { faker } from '@faker-js/faker'
 import sinon from 'sinon'
-import { OidcResp } from '../dto/common'
+import chaiAsPromised from 'chai-as-promised'
+import chai from 'chai'
+const expect = chai.expect
+const assert = chai.assert
+chai.use(chaiAsPromised)
 
 describe('oidc state cache', function () {
   it('create state and check ext', function () {
@@ -45,27 +48,11 @@ describe('wechat oidc flow', function () {
       it('invalid state will get a invalid state error', async function () {
         // mock incorrect state
         const invalidState = 'INVALID_STATE'
-        return await testDouble
-          .getAccessToken(invalidState, 'mockedCode')
-          .then((result) => {
-            assert.fail('was not supposed to succeed')
-          })
-          .catch((error: OidcError) => {
-            assert.equal(error instanceof OidcError, true)
-            assert.equal(error.name, 'AccessTokenError')
-          })
+        return await expect(testDouble.getAccessToken(invalidState, 'mockedCode')).to.eventually.rejectedWith(OidcError)
       })
       it('invalid code will get ad invalid state error', async function () {
-        const invalidCode: unknown = null
-        return await testDouble
-          .getAccessToken(mockCode, invalidCode as string)
-          .then((response) => {
-            assert.fail('was not supposed to succeed')
-          })
-          .catch((error: OidcError) => {
-            assert.equal(error instanceof OidcError, true)
-            assert.equal(error.name, 'AccessTokenError')
-          })
+        const invalidCode = ''
+        return await expect(testDouble.getAccessToken(mockCode, invalidCode)).to.eventually.rejectedWith(OidcError)
       })
       it('valid state and code will get access token', async function () {
         const getAccessToken = sinon.stub(testDouble, 'getAccessToken')
@@ -85,8 +72,6 @@ describe('wechat oidc flow', function () {
         return await getAccessToken(mockCode, mockState).then((resp) => {
           assert.equal(resp.type, 'accessToken')
           getAccessToken.restore()
-          accessToken = resp.result.access_token
-          openid = resp.result.openid
           return resp
         })
       })
