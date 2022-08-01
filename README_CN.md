@@ -1,28 +1,32 @@
-![dependency](https://img.shields.io/badge/runtime%20library-none-green) ![l](https://img.shields.io/badge/language-typescript-blue)
-![philosophy](https://img.shields.io/badge/philosophy-node%20way-yellow)
-![MIT](https://img.shields.io/badge/license-MIT-informational) 
+# Nw Auth
+
+![dependency](https://img.shields.io/badge/runtime%20library-none-green?style=for-the-badge)
+![philosophy](https://img.shields.io/badge/philosophy-node%20way-9cf?style=for-the-badge)
+
+![l](https://img.shields.io/badge/language-typescript-blue?)
+![node](https://img.shields.io/badge/node-%5E14.19.3-yellowgreen)
+![test](https://img.shields.io/badge/tests-13%20passed%2C%200%20faild-critical)
+![module](https://img.shields.io/badge/module-ESM-yellow)
+![MIT](https://img.shields.io/badge/license-MIT-informational)
+
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 
-nw-auth 是一款采用 node-way 理念开发的三方登录组件 👉 它代码体积小、接口暴露少、无运行时依赖。
+Nw-Auth 是一款采用 node way 理念开发的三方登录组件，其代码体积小、接口暴露少、无运行时依赖。
 
-支持市面上常见的符合 OIDC 协议的身份认证系统且十分易于使用。
+组件支持市面上常见的符合 OIDC 协议的身份认证系统，且十分易于使用。
 
-### [EN](README.md)/[中文](README_CN.md)
+[EN](README.md)/[中文](README_CN.md)
 
-## 目录
-- [目录](#目录)
-- [下载并运行程序](#下载并运行程序)
-- [对接三方登陆](#对接三方登陆)
-  - [微信网页应用](#微信网页应用)
-    - [安装依赖](#安装依赖)
-    - [快速对接](#快速对接)
-    - [类型声明](#类型声明)
-- [支持平台](#支持平台)
-- [捐赠与贡献](#捐赠与贡献)
-
-## 下载并运行程序
+##  目录
+- [Nw Auth](#nw-auth)
+  - [目录](#目录)
+  - [下载并运行](#下载并运行)
+  - [使用手册](#使用手册)
+      - [类型声明](#类型声明)
+  - [支持平台](#支持平台)
+## 下载并运行
 
 ```shell
 git clone ... into <nw-auth-home>
@@ -38,120 +42,120 @@ cd <nw-auth-home>
 ```
 
 ```shell
-# 编译
+# compile
 npm run clean
 npm run build
-# 测试
+# test
 npm run test
-# 启动
+# start
 npm run start
-# 使用
+# run example
 curl http(s)://<server_host>/wechat/login
 ```
-## 对接三方登陆
+## 使用手册
 
-### 微信网页应用
-
-#### 安装依赖
+**example on wechat oidc**
 
 ```shell
 npm i nw-auth
 ```
 
-#### 快速对接
-
 ```typescript
-import http from "http";
+import http from 'http'
 
-import { WechatOidc } from "./service/wechat";
+import { WechatOidc } from './service/wechat'
 
 export const server = http
   .createServer((req, res) => {
-    const reqUrl = req.url as string;
-    const url = new URL(reqUrl, `http://${req.headers.host}`);
-    console.log("http request has been handled ->", url);
-    if (url.pathname === "/wechat/login") {
-      const callback = `http://${req.headers.host}/wechat/login`;
-      const code = url.searchParams.get("code");
-      const state = url.searchParams.get("state");
-      const oidcService = new WechatOidc(
-        <appId>,
-        <appSecret>
-      );
+    const reqUrl = req.url as string
+    const url = new URL(reqUrl, `http://${req.headers.host as string}`)
+    console.log('http request has been handled ->', url)
+    if (url.pathname === '/wechat/login') {
+      const callback = `http://${req.headers.host as string}/wechat/login`
+      const code = url.searchParams.get('code')
+      const state = url.searchParams.get('state')
+      const oidcService = new WechatOidc('appId', 'appSecret', callback)
       if (code === null || state === null) {
         oidcService.processOidc(callback).then((oidcResp) => {
-          if (oidcResp.type === "redirect") {
-            console.info("redirect user to -> ", oidcResp);
-            res.writeHead(301, { Location: oidcResp.result as string });
-            res.end();
+          if (oidcResp.type === 'redirect') {
+            console.info('redirect user to -> ', oidcResp)
+            res.writeHead(301, { Location: oidcResp.result as string })
+            res.end()
           }
-        });
+        }).catch((err) => {
+          console.log(err)
+          res.writeHead(500)
+          res.end()
+        })
       } else {
         oidcService
           .processOidc(callback, code, state)
           .then((oidcResp) => {
-            if (oidcResp.type === "userInfo") {
+            if (oidcResp.type === 'userInfo') {
               console.info(
-                "request access token successful and get user info ->",
+                'request access token successful and get user info ->',
                 oidcResp
-              );
-              res.writeHead(301, { Location: oidcResp.type });
-              res.end();
+              )
+              res.writeHead(301, { Location: oidcResp.type })
+              res.end()
             }
           })
           .catch((error) => {
-            console.error("backend channel error ->", error);
-          });
+            console.error('backend channel error ->', error)
+          })
       }
     }
   })
-  .listen(80);
+  .listen(80)
 
 ```
 
 #### 类型声明
 
 ```typescript
-export declare type RedirectUrl = {
+
+export interface RedirectUrl {
     appid: string;
     redirect_uri: string;
-    response_type: "code";
+    response_type: 'code';
     scope: string;
     state?: string;
-};
-export declare type CallbackReq = {
+}
+export interface CallbackReq {
     code: string;
     state: string;
-};
-export declare type AccessTokenReq = {
+}
+export interface AccessTokenReq {
     appid: string;
     secret: string;
     code: string;
-    grant_type: "authorization_code";
-};
-export declare type AccessTokenResp = {
+    grant_type: 'authorization_code';
+}
+export interface AccessTokenResp {
     access_token: string;
     expires_in: number;
     refresh_token: string;
     openid: string;
     scope: string;
     unionid?: string;
-};
-export declare type AccessTokenRespError = {
+}
+export interface AccessTokenRespError {
     errcode: string;
     errmsg: string;
-};
-export declare type RefreshTokenReq = {
+}
+export interface AccessTokenRespUnion extends AccessTokenResp, AccessTokenRespError {
+}
+export interface RefreshTokenReq {
     appid: string;
     grant_type: string;
     refresh_token: string;
-};
-export declare type UserInfoReq = {
+}
+export interface UserInfoReq {
     access_token: string;
     openid: string;
-    lang: "zh_CN" | "zh_TW" | "en";
-};
-export declare type UserInfoResp = {
+    lang: 'zh_CN' | 'zh_TW' | 'en';
+}
+export interface UserInfoResp {
     openid: string;
     nickname: string;
     sex: number;
@@ -161,17 +165,15 @@ export declare type UserInfoResp = {
     headimgurl: string;
     privilege: string[];
     unionid?: string;
-};
+}
 
 ```
 
 ## 支持平台
 
-| 平台 | 类 | 构造函数 | 类型声明 | 支持 | 
-| --- | --- | --- | --- |--- |
-| 微信 | WechaOidc  | new WechatOidc(appid,appsecret) | dto/wechat.d.ts | 是 |
-| Github |  |  | | 开发中 |
-| StackOverFlow |  | | | 开发中 |
-| 微博 |  | | | 开发中 |
-
-## 捐赠与贡献
+| Platform      | Class      | constructor                                       | Type declaration | support |
+| ------------- | ---------- | ------------------------------------------------- | ---------------- | ------- |
+| Wechat        | WechatOidc | new WechatOidc(appid,appsecret,redirectUrl)       | dto/wechat.d.ts  | yes     |
+| Github        |            |                                                   |                  | feature |
+| StackOverFlow |            |                                                   |                  | feature |
+| Sina          | SinaOidc   | new WechatOidc(clientId,clientSecret,redirectUrl) | dto/sina.d.ts    | yes     |

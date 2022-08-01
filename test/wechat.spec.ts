@@ -1,10 +1,14 @@
 import { describe, it } from 'mocha'
-import { assert } from 'chai'
 import { WechatOidc } from '../service/wechat'
 import { OidcServiceSpy } from './spy'
 import { OidcError } from '../error/error'
 import { faker } from '@faker-js/faker'
 import sinon from 'sinon'
+import chaiAsPromised from 'chai-as-promised'
+import chai from 'chai'
+const expect = chai.expect
+const assert = chai.assert
+chai.use(chaiAsPromised)
 
 describe('oidc state cache', function () {
   it('create state and check ext', function () {
@@ -15,7 +19,8 @@ describe('oidc state cache', function () {
 })
 
 describe('wechat oidc flow', function () {
-  const testDouble = new WechatOidc('appId', 'appSecret')
+  const callback = 'http://localhost/callback'
+  const testDouble = new WechatOidc('appId', 'appSecret', callback)
   let mockState
   let mockCode
 
@@ -23,8 +28,7 @@ describe('wechat oidc flow', function () {
     let redirectUrl
     let state
     it('redirect user to wechat login page', async function () {
-      const callback = 'http://localhost/callback'
-      return await testDouble.redirectLogin(callback).then((result) => {
+      return await testDouble.redirectLogin().then((result) => {
         assert.equal(result.type, 'redirect')
         redirectUrl = new URL(result.result)
         assert.equal(redirectUrl.searchParams.get('redirect_uri'), callback)
@@ -40,33 +44,15 @@ describe('wechat oidc flow', function () {
     })
   })
   describe('wechat oidc backend channel', function () {
-    let accessToken
-    let openid
     describe('get access token by state and code', function () {
       it('invalid state will get a invalid state error', async function () {
         // mock incorrect state
         const invalidState = 'INVALID_STATE'
-        return await testDouble
-          .getAccessToken(invalidState, 'mockedCode')
-          .then((result) => {
-            assert.fail('was not supposed to succeed')
-          })
-          .catch((error: OidcError) => {
-            assert.equal(error instanceof OidcError, true)
-            assert.equal(error.name, 'AccessTokenError')
-          })
+        return await expect(testDouble.getAccessToken(invalidState, 'mockedCode')).to.eventually.rejectedWith(OidcError)
       })
       it('invalid code will get ad invalid state error', async function () {
-        const invalidCode: unknown = null
-        return await testDouble
-          .getAccessToken(mockCode, invalidCode as string)
-          .then((response) => {
-            assert.fail('was not supposed to succeed')
-          })
-          .catch((error: OidcError) => {
-            assert.equal(error instanceof OidcError, true)
-            assert.equal(error.name, 'AccessTokenError')
-          })
+        const invalidCode = ''
+        return await expect(testDouble.getAccessToken(mockCode, invalidCode)).to.eventually.rejectedWith(OidcError)
       })
       it('valid state and code will get access token', async function () {
         const getAccessToken = sinon.stub(testDouble, 'getAccessToken')
@@ -86,8 +72,6 @@ describe('wechat oidc flow', function () {
         return await getAccessToken(mockCode, mockState).then((resp) => {
           assert.equal(resp.type, 'accessToken')
           getAccessToken.restore()
-          accessToken = resp.result.access_token
-          openid = resp.result.openid
           return resp
         })
       })
@@ -111,7 +95,18 @@ describe('wechat oidc flow', function () {
             }
           })
         )
-        return await getUserInfo(accessToken, openid).then((resp) => {
+        const resp = {
+          type: 'accessToken',
+          result: {
+            access_token: faker.datatype.string(),
+            expires_in: faker.datatype.number(),
+            refresh_token: faker.datatype.string(),
+            openid: faker.datatype.string(),
+            scope: faker.datatype.string(),
+            unionid: faker.datatype.string()
+          }
+        } as const
+        return await getUserInfo(resp).then((resp) => {
           getUserInfo.restore()
           assert.equal(resp.type, 'userInfo')
           assert.isNotNull(resp.result.unionid)

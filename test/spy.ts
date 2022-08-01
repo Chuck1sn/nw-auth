@@ -1,22 +1,21 @@
-import { OidcResp } from '../dto/common'
+import { OidcResp, Platform } from '../dto/common'
 import { OidcService } from '../service/core'
 
 export class OidcServiceSpy extends OidcService {
-  async redirectLogin (redirectUrl: string): Promise<OidcResp<'redirect'>> {
+  async redirectLogin (redirectUrl: string): Promise<OidcResp<'redirect', Platform>> {
     throw new Error('Method not implemented.')
   }
 
   async getAccessToken (
     code: string,
     state: string
-  ): Promise<OidcResp<'accessToken'>> {
+  ): Promise<OidcResp<'accessToken', Platform>> {
     throw new Error('Method not implemented.')
   }
 
   async getUserInfo (
-    accessToken: string,
-    openid: string
-  ): Promise<OidcResp<'userInfo'>> {
+    resp
+  ): Promise<OidcResp<'userInfo', Platform>> {
     throw new Error('Method not implemented.')
   }
 

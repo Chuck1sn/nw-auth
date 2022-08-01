@@ -1,30 +1,28 @@
 import https from 'https'
-import { OidcResp } from '../dto/common'
+import { OidcResp, Platform } from '../dto/common'
 import { OidcError } from '../error/error'
-import { OidcFLow } from '../interface/function'
 
 export abstract class OidcService {
   private static readonly stateCache = new Set()
 
-  abstract redirectLogin (redirectUrl: string): Promise<OidcResp<'redirect'>>
+  abstract redirectLogin (redirectUrl: string): Promise<OidcResp<'redirect', Platform>>
 
   abstract getAccessToken (
     code: string,
     state: string
-  ): Promise<OidcResp<'accessToken'>>
+  ): Promise<OidcResp<'accessToken', Platform>>
 
   abstract getUserInfo (
-    accessToken: string,
-    openid: string
-  ): Promise<OidcResp<'userInfo'>>
+    resp: OidcResp<'accessToken', Platform>
+  ): Promise<OidcResp<'userInfo', Platform>>
 
-  processOidc: OidcFLow = async (redirect: string, code?: string, state?: string) => {
+  processOidc = async (redirect: string, code?: string, state?: string): Promise<OidcResp<'userInfo' | 'redirect', Platform>> => {
     if (code === undefined) {
       return await this.redirectLogin(redirect)
     } else {
       return await this.getAccessToken(code, state as string).then(
-        async (resp: OidcResp<'accessToken'>) => {
-          return await this.getUserInfo(resp.result.access_token, resp.result.openid)
+        async (resp: OidcResp<'accessToken', Platform>) => {
+          return await this.getUserInfo(resp)
         }
       )
     }

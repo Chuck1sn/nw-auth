@@ -11,7 +11,7 @@ export const server = http
       const callback = `http://${req.headers.host as string}/wechat/login`
       const code = url.searchParams.get('code')
       const state = url.searchParams.get('state')
-      const oidcService = new WechatOidc('appId', 'appSecret')
+      const oidcService = new WechatOidc('appId', 'appSecret', callback)
       if (code === null || state === null) {
         oidcService.processOidc(callback).then((oidcResp) => {
           if (oidcResp.type === 'redirect') {
