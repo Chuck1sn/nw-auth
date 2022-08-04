@@ -19,7 +19,7 @@ export class WechatOidc extends OidcService {
 
   async redirectLogin (): Promise<OidcResp<'redirect', Platform>> {
     const redirectLoginUrl = new URL(wechatApi.redirectLogin)
-    const param: WechatDto.RedirectUrl = {
+    const param: WechatDto.RedirectReq = {
       appid: this.appId,
       redirect_uri: this.redirectUrl,
       response_type: 'code',
@@ -42,7 +42,7 @@ export class WechatOidc extends OidcService {
     if (!super.checkState(state)) {
       return await Promise.reject(new OidcError('state invalid', 'AccessTokenError'))
     }
-    if (code !== '') {
+    if (code === '') {
       return await Promise.reject(new OidcError('code invalid', 'AccessTokenError'))
     }
     const accessTokenUrl = new URL(wechatApi.accessToken)

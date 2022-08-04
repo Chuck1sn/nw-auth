@@ -28,9 +28,9 @@ export abstract class OidcService {
     }
   }
 
-  async requestPromise (options: URL): Promise<string> {
+  async requestPromise (options: URL, headers?: NodeJS.ReadOnlyDict<string>): Promise<string> {
     return await new Promise((resolve, reject) => {
-      const req = https.request(options, (res) => {
+      const req = https.request(options, { headers }, (res) => {
         let chunks = ''
         res.setEncoding('utf8')
         res.on('data', (d) => {
