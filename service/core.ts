@@ -69,7 +69,6 @@ export abstract class OidcService {
   }
 
   protected checkState (state: string): boolean {
-    console.log('state and store', state, OidcService.stateCache)
     if (OidcService.stateCache.has(state)) {
       OidcService.stateCache.delete(state)
       return true
