@@ -28,9 +28,9 @@ export abstract class OidcService {
     }
   }
 
-  async requestPromise (options: URL): Promise<string> {
+  async requestPromise (options: URL, headers?: NodeJS.ReadOnlyDict<string>): Promise<string> {
     return await new Promise((resolve, reject) => {
-      const req = https.request(options, (res) => {
+      const req = https.request(options, { headers }, (res) => {
         let chunks = ''
         res.setEncoding('utf8')
         res.on('data', (d) => {
@@ -69,6 +69,7 @@ export abstract class OidcService {
   }
 
   protected checkState (state: string): boolean {
+    console.log('state and store', state, OidcService.stateCache)
     if (OidcService.stateCache.has(state)) {
       OidcService.stateCache.delete(state)
       return true

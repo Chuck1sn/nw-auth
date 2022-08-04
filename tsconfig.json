@@ -9,8 +9,13 @@
     "baseUrl": "./", // 定义 ts 项目的根目录，设置 paths 前必须设置
     //定义路径别名,即当我们通过路径引入一个模块时，可以使用别名来进行引入，这里第一个 * 设置是为了引入第三方模块; 第二个 '@/*' 则是为了直接快捷的导入 /src 下的模块。
     "paths": {
-      "*": ["node_modules/*", "src/types/*"],
-      "@/*": ["src/*"]
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ],
+      "@/*": [
+        "src/*"
+      ]
     },
     "esModuleInterop": true,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,

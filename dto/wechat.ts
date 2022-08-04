@@ -1,4 +1,4 @@
-export interface RedirectUrl {
+export interface RedirectReq {
   appid: string
   redirect_uri: string
   response_type: 'code'

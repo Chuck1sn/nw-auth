@@ -19,7 +19,7 @@ export class SinaOidc extends OidcService {
 
   async redirectLogin (): Promise<OidcResp<'redirect', Platform>> {
     const redirectLoginUrl = new URL(sinaApi.redirectLogin)
-    const param: SinaDto.RedirectUrl = {
+    const param: SinaDto.RedirectReq = {
       client_id: this.clientId,
       redirect_uri: this.redirectUrl,
       state: super.createState()
@@ -37,7 +37,7 @@ export class SinaOidc extends OidcService {
     if (!super.checkState(state)) {
       return await Promise.reject(new OidcError('state invalid', 'AccessTokenError'))
     }
-    if (code !== '') {
+    if (code === '') {
       return await Promise.reject(new OidcError('code invalid', 'AccessTokenError'))
     }
     const accessTokenUrl = new URL(sinaApi.accessToken)

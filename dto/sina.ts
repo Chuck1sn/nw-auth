@@ -1,4 +1,4 @@
-export interface RedirectUrl {
+export interface RedirectReq {
   client_id: string // 申请应用时分配的AppKey。
   redirect_uri: string // 授权回调地址，站外应用需与设置的回调地址一致，站内应用需填写canvas page的地址。
   scope?: string // 申请scope权限所需参数，可一次申请多个scope权限，用逗号分隔。使用文档
