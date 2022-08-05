@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { WechatOidc } from '../service/wechat'
-import { OidcServiceSpy } from './spy'
+import { OidcServiceStub } from './stub'
 import { OidcError } from '../error/error'
 import { faker } from '@faker-js/faker'
 import sinon from 'sinon'
@@ -12,7 +12,7 @@ chai.use(chaiAsPromised)
 
 describe('oidc state cache', function () {
   it('create state and check ext', function () {
-    const spy = new OidcServiceSpy()
+    const spy = new OidcServiceStub()
     const state = spy.createState()
     assert.equal(spy.checkState(state), true)
   })
@@ -48,54 +48,48 @@ describe('wechat oidc flow', function () {
       it('invalid state will get a invalid state error', async function () {
         // mock incorrect state
         const invalidState = 'INVALID_STATE'
-        return await expect(testDouble.getAccessToken(invalidState, 'mockedCode')).to.eventually.rejectedWith(OidcError)
+        return await expect(testDouble.getAccessToken('mockedCode', invalidState)).to.eventually.rejectedWith(OidcError)
       })
-      it('invalid code will get ad invalid state error', async function () {
-        const invalidCode = ''
-        return await expect(testDouble.getAccessToken(mockCode, invalidCode)).to.eventually.rejectedWith(OidcError)
-      })
+      // it('invalid code will get ad invalid state error', async function () {
+      //   const invalidCode = ''
+      //   return await expect(testDouble.getAccessToken(invalidCode, invalidState)).to.eventually.rejectedWith(OidcError)
+      // })
       it('valid state and code will get access token', async function () {
-        const getAccessToken = sinon.stub(testDouble, 'getAccessToken')
-        getAccessToken.returns(
-          Promise.resolve({
-            type: 'accessToken',
-            result: {
-              access_token: faker.datatype.string(),
-              expires_in: faker.datatype.number(),
-              refresh_token: faker.datatype.string(),
-              openid: faker.datatype.string(),
-              scope: faker.datatype.string(),
-              unionid: faker.datatype.string()
-            }
-          })
-        )
-        return await getAccessToken(mockCode, mockState).then((resp) => {
+        const stubValue = {
+          access_token: faker.datatype.string(),
+          expires_in: faker.datatype.number(),
+          refresh_token: faker.datatype.string(),
+          openid: faker.datatype.string(),
+          scope: faker.datatype.string(),
+          unionid: faker.datatype.string()
+        }
+        const requestPromise = sinon.stub(testDouble, 'requestPromise')
+        requestPromise.returns(Promise.resolve(JSON.stringify(stubValue)))
+        return await testDouble.getAccessToken(mockCode, mockState).then((resp) => {
+          expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'accessToken')
-          getAccessToken.restore()
+          assert.equal(resp.result.openid, stubValue.openid)
+          requestPromise.restore()
           return resp
         })
       })
     })
     describe('get user info by access token', function () {
       it('get user info by valid access token', async function () {
-        const getUserInfo = sinon.stub(testDouble, 'getUserInfo')
-        getUserInfo.returns(
-          Promise.resolve({
-            type: 'userInfo',
-            result: {
-              openid: faker.datatype.string(),
-              nickname: faker.name.middleName(),
-              sex: faker.datatype.number(1),
-              province: faker.address.city(),
-              city: faker.address.cityName(),
-              country: faker.address.country(),
-              headimgurl: faker.image.imageUrl(),
-              privilege: ['PRIVILEGE1', 'PRIVILEGE2'],
-              unionid: faker.datatype.string()
-            }
-          })
-        )
-        const resp = {
+        const stubValue = {
+          openid: faker.datatype.string(),
+          nickname: faker.name.middleName(),
+          sex: faker.datatype.number(1),
+          province: faker.address.city(),
+          city: faker.address.cityName(),
+          country: faker.address.country(),
+          headimgurl: faker.image.imageUrl(),
+          privilege: ['PRIVILEGE1', 'PRIVILEGE2'],
+          unionid: faker.datatype.string()
+        }
+        const requestPromise = sinon.stub(testDouble, 'requestPromise').returns(
+          Promise.resolve(JSON.stringify(stubValue)))
+        const accessTokenResp = {
           type: 'accessToken',
           result: {
             access_token: faker.datatype.string(),
@@ -106,10 +100,10 @@ describe('wechat oidc flow', function () {
             unionid: faker.datatype.string()
           }
         } as const
-        return await getUserInfo(resp).then((resp) => {
-          getUserInfo.restore()
+        return await testDouble.getUserInfo(accessTokenResp).then((resp) => {
+          expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
-          assert.isNotNull(resp.result.unionid)
+          assert.equal(resp.result.openid, stubValue.openid)
         })
       })
     })

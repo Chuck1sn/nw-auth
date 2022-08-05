@@ -40,46 +40,43 @@ describe('sina oidc flow', function () {
       it('invalid state will get a invalid state error', async function () {
         // mock incorrect state
         const invalidState = 'INVALID_STATE'
-        return await expect(testDouble.getAccessToken(invalidState, 'mockedCode')).to.eventually.rejectedWith(OidcError)
+        return await expect(testDouble.getAccessToken('mockedCode', invalidState)).to.eventually.rejectedWith(OidcError)
       })
-      it('invalid code will get ad invalid state error', async function () {
-        const invalidCode = ''
-        return await expect(testDouble.getAccessToken(mockCode, invalidCode)).to.eventually.rejectedWith(OidcError)
-      })
+      // it('invalid code will get ad invalid state error', async function () {
+      //   const invalidCode = ''
+      //   return await expect(testDouble.getAccessToken(invalidCode, 'STATE')).to.eventually.rejectedWith(OidcError)
+      // })
       it('valid state and code will get access token', async function () {
-        const getAccessToken = sinon.stub(testDouble, 'getAccessToken')
-        getAccessToken.returns(
-          Promise.resolve({
-            type: 'accessToken',
-            result: {
-              access_token: faker.datatype.string(),
-              expires_in: faker.datatype.number(),
-              remind_in: faker.datatype.string(),
-              uid: faker.datatype.string()
-            }
-          })
-        )
-        return await getAccessToken(mockCode, mockState).then((resp) => {
+        const stubValue = {
+          access_token: faker.datatype.string(),
+          expires_in: faker.datatype.number(),
+          remind_in: faker.datatype.string(),
+          uid: faker.datatype.string()
+        }
+        const requestPromise = sinon.stub(testDouble, 'requestPromise')
+          .returns(
+            Promise.resolve(JSON.stringify(stubValue))
+          )
+        return await testDouble.getAccessToken(mockCode, mockState).then((resp) => {
+          expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'accessToken')
-          getAccessToken.restore()
+          assert.equal(resp.result.uid, stubValue.uid)
+          requestPromise.restore()
           return resp
         })
       })
     })
     describe('get user info by access token', function () {
       it('get user info by valid access token', async function () {
-        const getUserInfo = sinon.stub(testDouble, 'getUserInfo')
-        getUserInfo.returns(
-          Promise.resolve({
-            type: 'userInfo',
-            result: {
-              uid: faker.datatype.string(),
-              appkey: faker.datatype.string(),
-              scope: faker.datatype.number(),
-              create_at: faker.datatype.string(),
-              expire_in: faker.datatype.string()
-            }
-          })
+        const stubValue = {
+          uid: faker.datatype.string(),
+          appkey: faker.datatype.string(),
+          scope: faker.datatype.number(),
+          create_at: faker.datatype.string(),
+          expire_in: faker.datatype.string()
+        }
+        const requestPromise = sinon.stub(testDouble, 'requestPromise').returns(
+          Promise.resolve(JSON.stringify(stubValue))
         )
         const req = {
           type: 'accessToken',
@@ -90,10 +87,10 @@ describe('sina oidc flow', function () {
             uid: faker.datatype.string() // 授权用户唯一标识
           }
         } as const
-        return await getUserInfo(req).then((resp) => {
-          getUserInfo.restore()
+        return await testDouble.getUserInfo(req).then((resp) => {
+          expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
-          assert.isNotNull(resp.result.uid)
+          assert.equal(resp.result.uid, stubValue.uid)
         })
       })
     })
