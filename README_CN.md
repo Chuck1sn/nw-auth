@@ -12,13 +12,15 @@
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
+**[EN](README.md)/[中文](README_CN.md)**
 
-Nw-Auth 是一款采用 node way 理念开发的三方登录组件，其代码体积小、接口暴露少、无运行时依赖。
+---
 
-组件支持市面上常见的符合 OIDC 协议的身份认证系统，且十分易于使用。
+Node-Way-Auth 是一款采用 node way 理念开发的三方登录组件。其代码体积小、接口暴露少、无运行时依赖。
 
-[EN](README.md)/[中文](README_CN.md)
+组件[支持](#支持平台)常见的遵守 OIDC 协议的身份认证系统，且部署简单，易于使用。
 
+---
 ##  目录
 - [Nw Auth](#nw-auth)
   - [目录](#目录)
@@ -169,11 +171,10 @@ export interface UserInfoResp {
 
 ```
 
-## 支持平台
+##  支持平台
 
-| Platform      | Class      | constructor                                       | Type declaration | support |
-| ------------- | ---------- | ------------------------------------------------- | ---------------- | ------- |
-| Wechat        | WechatOidc | new WechatOidc(appid,appsecret,redirectUrl)       | dto/wechat.d.ts  | yes     |
-| Github        |            |                                                   |                  | feature |
-| StackOverFlow |            |                                                   |                  | feature |
-| Sina          | SinaOidc   | new WechatOidc(clientId,clientSecret,redirectUrl) | dto/sina.d.ts    | yes     |
+| Platform                                                                       | Constructor                                             | Type declaration      |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------- | --------------------- |
+| ![wechat](https://img.shields.io/badge/wechat-white?style=flat&logo=wechat)    | ```WechatOidc<appid,appsecret,redirectUrl>```           | ```dto/wechat.d.ts``` |
+| ![sina](https://img.shields.io/badge/sina-red?style=flat&logo=sinaweibo)       | ```SinaOidc<clientId,clientSecret,redirectUrl>```       | ```dto/sina.d.ts```   |
+| ![feishu](https://img.shields.io/badge/feishu-white?style=flat&logo=bytedance) | ```FeishuOidc<appId,appSecret,appTicket,redirectUrl>``` | ```dto/feishu.d.ts``` |

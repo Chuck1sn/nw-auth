@@ -5,36 +5,36 @@
 
 ![l](https://img.shields.io/badge/language-typescript-blue?)
 ![node](https://img.shields.io/badge/node-%5E14.19.3-yellowgreen)
-![test](https://img.shields.io/badge/tests-18%20passed%2C%200%20faild-critical)
+![test](https://img.shields.io/badge/tests-16%20passed%2C%200%20faild-critical)
 ![module](https://img.shields.io/badge/module-ESM-yellow)
 ![MIT](https://img.shields.io/badge/license-MIT-informational)
 
-
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
+**[EN](README.md)/[中文](README_CN.md)**
 
+---
 
 Node-Way-Auth is a third-party-login component developed by node-way that has small code size, less interface exposure, and no runtime library.
 
-It supports common OIDC protocol-compliant authentication systems and is very easy to use.
+It [supports](#platform) OIDC protocol-compliant authentication systems and is very easy to use.
 
-[EN](README.md)/[中文](README_CN.md)
-
+---
 ## Content
 - [Node Way Auth](#node-way-auth)
   - [Content](#content)
   - [Download and Run](#download-and-run)
   - [Usage](#usage)
       - [Type declaration](#type-declaration)
-  - [Supported platforms](#supported-platforms)
+  - [Platform](#platform)
 
 ## Download and Run
-
 
 ```shell
 git clone ... into <nw-auth-home>
 cd <nw-auth-home>
 ```
+
 ```
 ├─ <nw-auth-home>
 │   └── data
@@ -56,6 +56,7 @@ npm run start
 curl http(s)://<server_host>/wechat/login
 ```
 ## Usage
+
 
 **example on wechat oidc**
 
@@ -172,11 +173,10 @@ export interface UserInfoResp {
 
 ```
 
-## Supported platforms
+## Platform
 
-| Platform      | Class      | constructor                                       | Type declaration | support |
-| ------------- | ---------- | ------------------------------------------------- | ---------------- | ------- |
-| Wechat        | WechatOidc | new WechatOidc(appid,appsecret,redirectUrl)       | dto/wechat.d.ts  | yes     |
-| Github        |            |                                                   |                  | feature |
-| StackOverFlow |            |                                                   |                  | feature |
-| Sina          | SinaOidc   | new WechatOidc(clientId,clientSecret,redirectUrl) | dto/sina.d.ts    | yes     |
+| Platform                                                                       | Constructor                                             | Type declaration      |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------- | --------------------- |
+| ![wechat](https://img.shields.io/badge/wechat-white?style=flat&logo=wechat)    | ```WechatOidc<appid,appsecret,redirectUrl>```           | ```dto/wechat.d.ts``` |
+| ![sina](https://img.shields.io/badge/sina-red?style=flat&logo=sinaweibo)       | ```SinaOidc<clientId,clientSecret,redirectUrl>```       | ```dto/sina.d.ts```   |
+| ![feishu](https://img.shields.io/badge/feishu-white?style=flat&logo=bytedance) | ```FeishuOidc<appId,appSecret,appTicket,redirectUrl>``` | ```dto/feishu.d.ts``` |
