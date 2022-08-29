@@ -2,7 +2,7 @@ import { OidcResp } from '../dto/common'
 import { OidcService } from './core'
 import { url as feishuApi } from '../data/feishu'
 import * as FeishuDto from '../dto/feishu'
-import { OidcError } from '../error/error'
+import { AccessTokenError, AppAccessTokenError, UserInfoError } from '../error/error'
 
 type Platform = 'feishu'
 export class FeishuOidc extends OidcService {
@@ -35,7 +35,7 @@ export class FeishuOidc extends OidcService {
     const res = await this.requestPromise(appAccessTokenUrl, headers)
     const tokenResp: FeishuDto.AppAccessTokenResp = JSON.parse(res)
     if (tokenResp.code !== 0) {
-      throw new OidcError('feishu appAccessToken request return invalid code', 'appAccessTokenError')
+      throw new AppAccessTokenError('feishu appAccessToken request return invalid code')
     }
     return tokenResp
   }
@@ -58,10 +58,10 @@ export class FeishuOidc extends OidcService {
 
   async getAccessToken (code: string, state: string): Promise<OidcResp<'accessToken', Platform>> {
     if (!super.checkState(state)) {
-      return await Promise.reject(new OidcError('state invalid', 'AccessTokenError'))
+      return await Promise.reject(new AccessTokenError('state invalid'))
     }
     if (code === '') {
-      return await Promise.reject(new OidcError('code invalid', 'AccessTokenError'))
+      return await Promise.reject(new AccessTokenError('code invalid'))
     }
 
     const appToken = await this.getAppAccessToken()
@@ -80,9 +80,8 @@ export class FeishuOidc extends OidcService {
     return await this.requestPromise(accessTokenUrl, headers).then((res) => {
       const resp: FeishuDto.AccessTokenResp = JSON.parse(res)
       if (resp.data.access_token === undefined) {
-        throw new OidcError(
-          'access token response not valid',
-          'AccessTokenError'
+        throw new AccessTokenError(
+          'access token response not valid'
         )
       }
       return {
@@ -100,7 +99,7 @@ export class FeishuOidc extends OidcService {
     return await this.requestPromise(userInfoUrl, headers).then((res) => {
       const resp = JSON.parse(res)
       if (resp.code !== 0) {
-        throw new OidcError('get userInfo response not valid', 'UserInfoError')
+        throw new UserInfoError('userInfo response not valid')
       }
       return {
         type: 'userInfo',

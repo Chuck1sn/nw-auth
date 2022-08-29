@@ -5,7 +5,7 @@
 
 ![l](https://img.shields.io/badge/language-typescript-blue?)
 ![node](https://img.shields.io/badge/node-%5E14.19.3-yellowgreen)
-![test](https://img.shields.io/badge/tests-18%20passed%2C%200%20faild-critical)
+![test](https://img.shields.io/badge/tests-21%20passed%2C%200%20faild-critical)
 ![module](https://img.shields.io/badge/module-ESM-yellow)
 ![MIT](https://img.shields.io/badge/license-MIT-informational)
 
@@ -178,3 +178,4 @@ export interface UserInfoResp {
 | ![wechat](https://img.shields.io/badge/wechat-white?style=flat&logo=wechat)    | ```WechatOidc<appid,appsecret,redirectUrl>```           | ```dto/wechat.d.ts``` |
 | ![sina](https://img.shields.io/badge/sina-red?style=flat&logo=sinaweibo)       | ```SinaOidc<clientId,clientSecret,redirectUrl>```       | ```dto/sina.d.ts```   |
 | ![feishu](https://img.shields.io/badge/feishu-white?style=flat&logo=bytedance) | ```FeishuOidc<appId,appSecret,appTicket,redirectUrl>``` | ```dto/feishu.d.ts``` |
+| ![github](https://img.shields.io/badge/github-black?style=flat&logo=github)    | ```GithubOidc<clientId,clientSecret,redirectUrl>```     | ```dto/feishu.d.ts``` |
