@@ -1,14 +1,14 @@
 import { OidcResp } from '../dto/common'
 import { OidcService } from './core'
-import { url as sinaApi } from '../data/sina'
-import * as SinaDto from '../dto/sina'
+import { url as githubApi } from '../data/github'
+import * as GithubDto from '../dto/github'
 import { AccessTokenError, UserInfoError } from '../error/error'
 
-type Platform = 'sina'
-export class SinaOidc extends OidcService {
+type Platform = 'github'
+export class GithubOidc extends OidcService {
   private readonly clientId: string
-  private readonly clientSecret: string
   private readonly redirectUrl: string
+  private readonly clientSecret: string
 
   constructor (clientId, clientSecret, redirectUrl) {
     super()
@@ -18,8 +18,8 @@ export class SinaOidc extends OidcService {
   }
 
   async redirectLogin (): Promise<OidcResp<'redirect', Platform>> {
-    const redirectLoginUrl = new URL(sinaApi.redirectLogin)
-    const param: SinaDto.RedirectReq = {
+    const redirectLoginUrl = new URL(githubApi.redirectLogin)
+    const param: GithubDto.RedirectReq = {
       client_id: this.clientId,
       redirect_uri: this.redirectUrl,
       state: super.createState()
@@ -40,18 +40,17 @@ export class SinaOidc extends OidcService {
     if (code === '') {
       return await Promise.reject(new AccessTokenError('code invalid'))
     }
-    const accessTokenUrl = new URL(sinaApi.accessToken)
-    const param: SinaDto.AccessTokenReq = {
+    const accessTokenUrl = new URL(githubApi.accessToken)
+    const param: GithubDto.AccessTokenReq = {
       client_id: this.clientId,
       client_secret: this.clientSecret,
-      grant_type: 'authorization_code',
       code,
       redirect_uri: this.redirectUrl
     }
     Object.entries(param).forEach(([k, v]) => {
       accessTokenUrl.searchParams.append(k, v)
     })
-    return await this.requestPromise(accessTokenUrl).then((res) => {
+    return await this.requestPromise(accessTokenUrl, { Accept: 'application/json' }).then((res) => {
       const resp = JSON.parse(res)
       if (resp.access_token === undefined) {
         throw new AccessTokenError('access token response not valid')
@@ -64,14 +63,15 @@ export class SinaOidc extends OidcService {
   }
 
   async getUserInfo (resp: OidcResp<'accessToken', Platform>): Promise<OidcResp<'userInfo', Platform>> {
-    const userInfoUrl = new URL(sinaApi.userInfo)
-    const param: SinaDto.UserInfoReq = resp.result.access_token
-    Object.entries(param).forEach(([k, v]) => {
-      userInfoUrl.searchParams.append(k, v)
-    })
-    return await this.requestPromise(userInfoUrl).then((res) => {
+    const userInfoUrl = new URL(githubApi.userInfo)
+    return await this.requestPromise(userInfoUrl
+      , {
+        Authorization: `token ${resp.result.access_token}`,
+        Accept: 'application/json'
+      }
+    ).then((res) => {
       const resp = JSON.parse(res)
-      if (resp.uid === undefined) {
+      if (resp.id === undefined) {
         throw new UserInfoError('userInfo response not valid')
       }
       return {

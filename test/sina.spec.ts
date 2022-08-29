@@ -1,7 +1,7 @@
 import { SinaOidc } from '../service/sina'
 import { describe, it } from 'mocha'
 import { faker } from '@faker-js/faker'
-import { OidcError } from '../error/error'
+import { AccessTokenError } from '../error/error'
 import sinon from 'sinon'
 import chai from 'chai'
 // Load chai assertions
@@ -40,7 +40,7 @@ describe('sina oidc flow', function () {
       it('invalid state will get a invalid state error', async function () {
         // mock incorrect state
         const invalidState = 'INVALID_STATE'
-        return await expect(testDouble.getAccessToken('mockedCode', invalidState)).to.eventually.rejectedWith(OidcError)
+        return await expect(testDouble.getAccessToken('mockedCode', invalidState)).to.eventually.rejectedWith(AccessTokenError)
       })
       // it('invalid code will get ad invalid state error', async function () {
       //   const invalidCode = ''

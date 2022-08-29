@@ -2,7 +2,7 @@ import { OidcService } from './core'
 import * as WechatDto from '../dto/wechat'
 import { url as wechatApi } from '../data/wechat'
 import { OidcResp } from '../dto/common'
-import { OidcError } from '../error/error'
+import { AccessTokenError, OidcError, UserInfoError } from '../error/error'
 
 type Platform = 'wechat'
 
@@ -40,10 +40,10 @@ export class WechatOidc extends OidcService {
     state: string
   ): Promise<OidcResp<'accessToken', Platform>> {
     if (!super.checkState(state)) {
-      return await Promise.reject(new OidcError('state invalid', 'AccessTokenError'))
+      return await Promise.reject(new AccessTokenError('state invalid'))
     }
     if (code === '') {
-      return await Promise.reject(new OidcError('code invalid', 'AccessTokenError'))
+      return await Promise.reject(new AccessTokenError('code invalid'))
     }
     const accessTokenUrl = new URL(wechatApi.accessToken)
     const param: WechatDto.AccessTokenReq = {
@@ -58,10 +58,7 @@ export class WechatOidc extends OidcService {
     return await this.requestPromise(accessTokenUrl).then((res) => {
       const resp = JSON.parse(res)
       if (resp.errcode !== undefined) {
-        throw new OidcError(
-          'access token response not valid',
-          'AccessTokenError'
-        )
+        throw new AccessTokenError('access token response not valid')
       }
       return {
         type: 'accessToken',
@@ -85,7 +82,7 @@ export class WechatOidc extends OidcService {
     return await this.requestPromise(userInfoUrl).then((res) => {
       const resp = JSON.parse(res)
       if (resp.errcode !== undefined) {
-        throw new OidcError('get userInfo response not valid', 'UserInfoError')
+        throw new UserInfoError('userInfo response not valid')
       }
       return {
         type: 'userInfo',
