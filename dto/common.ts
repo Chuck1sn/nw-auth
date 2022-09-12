@@ -2,8 +2,9 @@ import * as WechatDto from './wechat'
 import * as SinaDto from './sina'
 import * as FeishuDto from './feishu'
 import * as GithubDto from './github'
+import * as GoogleDto from './google'
 
-export type Platform = 'wechat' | 'sina' | 'feishu' | 'github'
+export type Platform = 'wechat' | 'sina' | 'feishu' | 'github' | 'google'
 export interface OidcResp<E extends keyof FlowResult<P>, P extends Platform> {
   type: E
   result: FlowResult<P>[E]
@@ -20,6 +21,7 @@ export interface PlatformAccessTokenResp {
   sina: SinaDto.AccessTokenResp
   feishu: FeishuDto.AccessTokenResp
   github: GithubDto.AccessTokenResp
+  google: GoogleDto.AccessTokenResp
 }
 
 export interface PlatformUserInfoResp {
@@ -27,4 +29,5 @@ export interface PlatformUserInfoResp {
   sina: SinaDto.UserInfoResp
   feishu: FeishuDto.UserInfoResp
   github: GithubDto.UserInfoResp
+  google: GoogleDto.UserInfoResp
 }

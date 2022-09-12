@@ -2,7 +2,7 @@ import { OidcService } from './core'
 import * as WechatDto from '../dto/wechat'
 import { url as wechatApi } from '../data/wechat'
 import { OidcResp } from '../dto/common'
-import { AccessTokenError, OidcError, UserInfoError } from '../error/error'
+import { AccessTokenError, UserInfoError } from '../error/error'
 
 type Platform = 'wechat'
 

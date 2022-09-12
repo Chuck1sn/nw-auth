@@ -1,6 +1,6 @@
 import https from 'https'
 import { OidcResp, Platform } from '../dto/common'
-import { CoreError, OidcError } from '../error/error'
+import { CoreError } from '../error/error'
 
 export abstract class OidcService {
   private static readonly stateCache = new Set()
@@ -47,7 +47,7 @@ export abstract class OidcService {
         })
       })
       req.on('error', (error) => {
-        const authError = new OidcError(`request client error occur! param: ${options.toString()} err :${error.message}`)
+        const authError = new CoreError(`request client error occur! param: ${options.toString()} err :${error.message}`)
         reject(authError)
       })
       req.end()
