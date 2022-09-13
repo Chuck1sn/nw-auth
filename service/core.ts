@@ -20,17 +20,14 @@ export abstract class OidcService {
     if (code === undefined) {
       return await this.redirectLogin(redirect)
     } else {
-      return await this.getAccessToken(code, state as string).then(
-        async (resp: OidcResp<'accessToken', Platform>) => {
-          return await this.getUserInfo(resp)
-        }
-      )
+      const accessTokenResult: OidcResp<'accessToken', Platform> = await this.getAccessToken(code, state as string)
+      return await this.getUserInfo(accessTokenResult)
     }
   }
 
-  async requestPromise (options: URL, headers?: NodeJS.ReadOnlyDict<string>): Promise<string> {
+  async requestPromise (url, options = {}): Promise<string> {
     return await new Promise((resolve, reject) => {
-      const req = https.request(options, { headers }, (res) => {
+      const req = https.request(url, options, (res) => {
         let chunks = ''
         res.setEncoding('utf8')
         res.on('data', (d) => {
@@ -38,7 +35,7 @@ export abstract class OidcService {
         })
         res.on('error', (error: Error) => {
           const authError = new CoreError(
-            `server response error ! param: ${options.toString()} err :${error.message}`
+            `server response error ! param: ${JSON.stringify(url)} err :${error.message}`
           )
           reject(authError)
         })
@@ -47,7 +44,7 @@ export abstract class OidcService {
         })
       })
       req.on('error', (error) => {
-        const authError = new CoreError(`request client error occur! param: ${options.toString()} err :${error.message}`)
+        const authError = new CoreError(`request client error occur! param: ${JSON.stringify(url)} err :${error.message}`)
         reject(authError)
       })
       req.end()
