@@ -1,6 +1,6 @@
 {
   "name": "nw-auth",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "💡A node-way -> [small,simple,fast] third-part-login library written in Typescript with no runtime dependency",
   "keywords": [
     "typescript",
