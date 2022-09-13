@@ -21,6 +21,8 @@ export interface AccessTokenReq {
 
 export interface AccessTokenReqHeader {
   Accept: 'application/json'
+  'User-Agent': string
+  Authorization: 'string'
 }
 
 export interface AccessTokenResp {

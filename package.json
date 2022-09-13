@@ -20,6 +20,7 @@
     "clean": "tsc --build --clean",
     "build": "tsc",
     "start": "node --es-module-specifier-resolution=node dist/index.js",
+    "start:dev": "NODE_DEBUG=http node --inspect --es-module-specifier-resolution=node dist/index.js",
     "test": "mocha --exit --require ts-node/register test/**/*.ts",
     "prepublishOnly": "npm run clean & npm run build"
   },

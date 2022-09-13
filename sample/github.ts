@@ -1,6 +1,6 @@
 import http from 'http'
 
-import { GithubOidc } from './service/github'
+import { GithubOidc } from '../service/github'
 
 export const server = http
   .createServer((req, res) => {

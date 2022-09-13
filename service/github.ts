@@ -1,3 +1,4 @@
+
 import { OidcResp } from '../dto/common'
 import { OidcService } from './core'
 import { url as githubApi } from '../data/github'
@@ -7,14 +8,16 @@ import { AccessTokenError, UserInfoError } from '../error/error'
 type Platform = 'github'
 export class GithubOidc extends OidcService {
   private readonly clientId: string
-  private readonly redirectUrl: string
   private readonly clientSecret: string
+  private readonly redirectUrl: string
+  private readonly appName: string
 
-  constructor (clientId, clientSecret, redirectUrl) {
+  constructor (clientId, clientSecret, redirectUrl, appName) {
     super()
     this.clientId = clientId
     this.clientSecret = clientSecret
     this.redirectUrl = redirectUrl
+    this.appName = appName
   }
 
   async redirectLogin (): Promise<OidcResp<'redirect', Platform>> {
@@ -67,7 +70,8 @@ export class GithubOidc extends OidcService {
     return await this.requestPromise(userInfoUrl
       , {
         Authorization: `token ${resp.result.access_token}`,
-        Accept: 'application/json'
+        Accept: 'application/json',
+        'User-Agent': this.appName
       }
     ).then((res) => {
       const resp = JSON.parse(res)
