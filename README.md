@@ -53,12 +53,12 @@ npm run test
 # start
 npm run start
 # run example
-curl http(s)://<server_host>/wechat/login
+curl http(s)://<server_host>/github/login
 ```
 ## Usage
 
 
-**example on wechat oidc**
+**example on github oidc**
 
 ```shell
 npm i nw-auth
@@ -67,18 +67,17 @@ npm i nw-auth
 ```typescript
 import http from 'http'
 
-import { WechatOidc } from './service/wechat'
+import { GithubOidc } from '../service/github'
 
 export const server = http
   .createServer((req, res) => {
     const reqUrl = req.url as string
-    const url = new URL(reqUrl, `http://${req.headers.host as string}`)
-    console.log('http request has been handled ->', url)
-    if (url.pathname === '/wechat/login') {
-      const callback = `http://${req.headers.host as string}/wechat/login`
+    const url = new URL(reqUrl, `https://${req.headers.host as string}`)
+    if (url.pathname === '/github/login') {
+      const callback = `https://${req.headers.host as string}/github/login`
       const code = url.searchParams.get('code')
       const state = url.searchParams.get('state')
-      const oidcService = new WechatOidc('appId', 'appSecret', callback)
+      const oidcService = new GithubOidc('<client_id>', '<client_secret>', callback, '<appName>')
       if (code === null || state === null) {
         oidcService.processOidc(callback).then((oidcResp) => {
           if (oidcResp.type === 'redirect') {
@@ -92,6 +91,7 @@ export const server = http
           res.end()
         })
       } else {
+        console.log('handle user login callback ->', url)
         oidcService
           .processOidc(callback, code, state)
           .then((oidcResp) => {
@@ -100,11 +100,14 @@ export const server = http
                 'request access token successful and get user info ->',
                 oidcResp
               )
-              res.writeHead(301, { Location: oidcResp.type })
+              res.write(JSON.stringify(oidcResp.result))
+              res.writeHead(200)
               res.end()
             }
           })
           .catch((error) => {
+            res.writeHead(500)
+            res.end()
             console.error('backend channel error ->', error)
           })
       }
@@ -112,63 +115,53 @@ export const server = http
   })
   .listen(80)
 
+
 ```
 
 #### Type declaration
 
 ```typescript
 
-export interface RedirectUrl {
-    appid: string;
+export interface RedirectReq {
+    client_id: string;
     redirect_uri: string;
-    response_type: 'code';
-    scope: string;
+    login?: string;
+    scope?: string;
     state?: string;
+    allow_signup?: string;
 }
 export interface CallbackReq {
     code: string;
     state: string;
 }
 export interface AccessTokenReq {
-    appid: string;
-    secret: string;
+    client_id: string;
+    client_secret: string;
     code: string;
-    grant_type: 'authorization_code';
+    redirect_uri?: string;
+}
+export interface AccessTokenReqHeader {
+    Accept: 'application/json';
+    'User-Agent': string;
+    Authorization: 'string';
 }
 export interface AccessTokenResp {
     access_token: string;
-    expires_in: number;
-    refresh_token: string;
-    openid: string;
     scope: string;
-    unionid?: string;
+    token_type: string;
 }
-export interface AccessTokenRespError {
-    errcode: string;
-    errmsg: string;
-}
-export interface AccessTokenRespUnion extends AccessTokenResp, AccessTokenRespError {
-}
-export interface RefreshTokenReq {
-    appid: string;
-    grant_type: string;
-    refresh_token: string;
-}
-export interface UserInfoReq {
-    access_token: string;
-    openid: string;
-    lang: 'zh_CN' | 'zh_TW' | 'en';
+export interface UserInfoReqHeader {
+    Authorization: string;
+    Accept: 'application/json';
 }
 export interface UserInfoResp {
-    openid: string;
-    nickname: string;
-    sex: number;
-    province: string;
-    city: string;
-    country: string;
-    headimgurl: string;
-    privilege: string[];
-    unionid?: string;
+    login: string;
+    id: string;
+    node_id: string;
+    avatar_url: string;
+    gravatar_id: string;
+    url: string;
+    ...
 }
 
 ```
