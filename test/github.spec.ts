@@ -13,7 +13,7 @@ chai.use(chaiAsPromised)
 
 describe('github oidc flow', function () {
   const callback = 'http://localhost/callback'
-  const testDouble = new GithubOidc('clientId', 'clientSecret', callback)
+  const testDouble = new GithubOidc('clientId', 'clientSecret', callback, 'appName')
   let mockState
   let mockCode
   describe('github oidc front channel', function () {

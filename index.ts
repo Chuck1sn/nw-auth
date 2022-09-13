@@ -1,15 +1,16 @@
 import http from 'http'
-import { GoogleOidc } from './service/google'
+
+import { GithubOidc } from './service/github'
 
 export const server = http
   .createServer((req, res) => {
-    const endpoint = req.url as string
-    const url = new URL(endpoint, `https://${req.headers.host as string}`)
-    if (url.pathname === '/google/login') {
-      const callback = `https://${req.headers.host as string}/google/login`
+    const reqUrl = req.url as string
+    const url = new URL(reqUrl, `https://${req.headers.host as string}`)
+    if (url.pathname === '/github/login') {
+      const callback = `https://${req.headers.host as string}/github/login`
       const code = url.searchParams.get('code')
       const state = url.searchParams.get('state')
-      const oidcService = new GoogleOidc('<clientId>', '<clientSecret>', callback)
+      const oidcService = new GithubOidc('<client_id>', '<client_secret>', callback, '<appName>')
       if (code === null || state === null) {
         oidcService.processOidc(callback).then((oidcResp) => {
           if (oidcResp.type === 'redirect') {
