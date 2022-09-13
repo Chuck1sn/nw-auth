@@ -41,7 +41,8 @@ describe('google oidc flow', function () {
       expires_in: faker.datatype.number(), // seconds -> 3920
       refresh_token: faker.datatype.string(),
       scope: 'https://www.googleapis.com/auth/userinfo.profile',
-      token_type: 'Bearer'
+      token_type: 'Bearer',
+      id_token: faker.datatype.string()
     } as const
     describe('get access token by state and code', function () {
       it('invalid state will get a invalid state error', async function () {
@@ -69,7 +70,7 @@ describe('google oidc flow', function () {
     describe('get user info by access token', function () {
       it('get user info by valid access token', async function () {
         const stubValue = {
-          id: faker.datatype.string(),
+          sub: faker.datatype.string(),
           email: faker.datatype.string(),
           verified_email: faker.datatype.boolean(),
           picture: faker.internet.url()
@@ -85,7 +86,7 @@ describe('google oidc flow', function () {
         return await testDouble.getUserInfo(req).then((resp) => {
           expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
-          assert.equal(resp.result.id, stubValue.id)
+          assert.equal(resp.result.sub, stubValue.sub)
         })
       })
     })

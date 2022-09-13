@@ -24,7 +24,7 @@ export class GoogleOidc extends OidcService {
       redirect_uri: this.redirectUrl,
       response_type: 'code',
       access_type: 'online',
-      scope: 'https://www.googleapis.com/auth/userinfo.profile',
+      scope: 'https://www.googleapis.com/auth/userinfo.email',
       state: super.createState()
     }
     Object.entries(param).forEach(([k, v]) => {
@@ -45,17 +45,20 @@ export class GoogleOidc extends OidcService {
     }
 
     const accessTokenUrl = new URL(googleApi.accessToken)
-    const param: GoogleDto.AccessTokenReq = {
+    const form: GoogleDto.AccessTokenReq = {
       client_id: this.clientId,
       client_secret: this.clientSecret,
       code,
       grant_type: 'authorization_code',
       redirect_uri: this.redirectUrl
     }
-    Object.entries(param).forEach(([k, v]) => {
-      accessTokenUrl.searchParams.append(k, v)
-    })
-    return await this.requestPromise(accessTokenUrl).then((resp) => {
+    return await this.requestPromise(accessTokenUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      form
+    }).then((resp) => {
       const result: GoogleDto.AccessTokenResp = JSON.parse(resp)
       if (result.access_token === undefined) {
         throw new AccessTokenError(
@@ -71,10 +74,10 @@ export class GoogleOidc extends OidcService {
 
   async getUserInfo (resp: OidcResp<'accessToken', Platform>): Promise<OidcResp<'userInfo', Platform>> {
     const userInfoUrl = new URL(googleApi.userInfo)
-    const headers = { Authorization: `Bearer ${resp.result.access_token}` }
-    return await this.requestPromise(userInfoUrl, headers).then((resp) => {
+    const options = { Authorization: `Bearer ${resp.result.access_token}` }
+    return await this.requestPromise(userInfoUrl, options).then((resp) => {
       const result: GoogleDto.UserInfoResp = JSON.parse(resp)
-      if (result.id === undefined || result.id === null) {
+      if (result.sub === null) {
         throw new UserInfoError('userInfo response not valid')
       }
       return {

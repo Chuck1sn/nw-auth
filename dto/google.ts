@@ -2,7 +2,7 @@ export interface RedirectReq {
   client_id: string
   redirect_uri: string
   response_type: 'code'
-  scope: 'https://www.googleapis.com/auth/userinfo.profile'
+  scope: 'https://www.googleapis.com/auth/userinfo.email'
   state?: string
   access_type: 'online'
 }
@@ -19,6 +19,10 @@ interface CallBackReqError{
   error: string
 }
 
+export interface AccessTokenReqHeader {
+  'Content-Type': 'application/x-www-form-urlencoded'
+  method: 'POST'
+}
 export interface AccessTokenReq {
   client_id: string
   client_secret: string
@@ -30,9 +34,10 @@ export interface AccessTokenReq {
 export interface AccessTokenResp {
   access_token: string
   expires_in: number // seconds -> 3920
-  refresh_token: string
   scope: string
+  refresh_token?: string
   token_type: 'Bearer'
+  id_token: string
 }
 
 export interface UserInfoReqHeader {
@@ -40,8 +45,8 @@ export interface UserInfoReqHeader {
 }
 
 export interface UserInfoResp {
-  id: string
+  sub: string
   email: string
-  verified_email: boolean
+  email_verified: boolean
   picture: string
 }

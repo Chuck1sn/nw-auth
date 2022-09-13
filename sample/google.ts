@@ -1,5 +1,5 @@
 import http from 'http'
-import { GoogleOidc } from './service/google'
+import { GoogleOidc } from '../service/google'
 
 export const server = http
   .createServer((req, res) => {
