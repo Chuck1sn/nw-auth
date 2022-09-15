@@ -39,7 +39,9 @@ cd <nw-auth-home>
 │   └── data
 │   └── dto
 │   └── error
+│   └── sample
 │   └── service
+│   └── test
 │   └── ...
 ```
 
@@ -165,10 +167,11 @@ export interface UserInfoResp {
 
 ##  支持平台
 
-| Platform                                                                       | Constructor                                             | Type declaration      |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------- | --------------------- |
-| ![wechat](https://img.shields.io/badge/wechat-white?style=flat&logo=wechat)    | ```WechatOidc<appid,appsecret,redirectUrl>```           | ```dto/wechat.d.ts``` |
-| ![sina](https://img.shields.io/badge/sina-red?style=flat&logo=sinaweibo)       | ```SinaOidc<clientId,clientSecret,redirectUrl>```       | ```dto/sina.d.ts```   |
-| ![feishu](https://img.shields.io/badge/feishu-white?style=flat&logo=bytedance) | ```FeishuOidc<appId,appSecret,appTicket,redirectUrl>``` | ```dto/feishu.d.ts``` |
-| ![github](https://img.shields.io/badge/github-black?style=flat&logo=github)    | ```GithubOidc<clientId,clientSecret,redirectUrl>```     | ```dto/github.d.ts``` |
-| ![google](https://img.shields.io/badge/google-white?style=flat&logo=google)    | ```GoogleOidc<clientId,clientSecret,redirectUrl>```     | ```dto/google.d.ts``` |
+
+| Platform                                                                       | Constructor                                                 | Type declaration      | Example                 |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------- | --------------------- | ----------------------- |
+| ![wechat](https://img.shields.io/badge/wechat-white?style=flat&logo=wechat)    | ```WechatOidc<appid,appsecret,redirectUrl>```               | ```dto/wechat.d.ts``` |                         |
+| ![sina](https://img.shields.io/badge/sina-red?style=flat&logo=sinaweibo)       | ```SinaOidc<clientId,clientSecret,redirectUrl>```           | ```dto/sina.d.ts```   | ```example/sina.ts```   |
+| ![feishu](https://img.shields.io/badge/feishu-white?style=flat&logo=bytedance) | ```FeishuOidc<appId,appSecret,appTicket,redirectUrl>```     | ```dto/feishu.d.ts``` |                         |
+| ![github](https://img.shields.io/badge/github-black?style=flat&logo=github)    | ```GithubOidc<clientId,clientSecret,redirectUrl,appName>``` | ```dto/github.d.ts``` | ```example/github.ts``` |
+| ![google](https://img.shields.io/badge/google-white?style=flat&logo=google)    | ```GoogleOidc<clientId,clientSecret,redirectUrl>```         | ```dto/google.d.ts``` | ```example/google.ts``` |
