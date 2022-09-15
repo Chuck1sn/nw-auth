@@ -51,7 +51,9 @@ export class SinaOidc extends OidcService {
     Object.entries(param).forEach(([k, v]) => {
       accessTokenUrl.searchParams.append(k, v)
     })
-    return await this.requestPromise(accessTokenUrl).then((res) => {
+    return await this.requestPromise(accessTokenUrl, {
+      method: 'POST'
+    }).then((res) => {
       const resp = JSON.parse(res)
       if (resp.access_token === undefined) {
         throw new AccessTokenError('access token response not valid')
@@ -65,11 +67,12 @@ export class SinaOidc extends OidcService {
 
   async getUserInfo (resp: OidcResp<'accessToken', Platform>): Promise<OidcResp<'userInfo', Platform>> {
     const userInfoUrl = new URL(sinaApi.userInfo)
-    const param: SinaDto.UserInfoReq = resp.result.access_token
-    Object.entries(param).forEach(([k, v]) => {
-      userInfoUrl.searchParams.append(k, v)
-    })
-    return await this.requestPromise(userInfoUrl).then((res) => {
+    return await this.requestPromise(userInfoUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }, `access_token=${resp.result.access_token}`).then((res) => {
       const resp = JSON.parse(res)
       if (resp.uid === undefined) {
         throw new UserInfoError('userInfo response not valid')

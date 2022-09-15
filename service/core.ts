@@ -25,7 +25,7 @@ export abstract class OidcService {
     }
   }
 
-  async requestPromise (url, options = {}): Promise<string> {
+  async requestPromise (url, options = {}, body?: string): Promise<string> {
     return await new Promise((resolve, reject) => {
       const req = https.request(url, options, (res) => {
         let chunks = ''
@@ -43,6 +43,9 @@ export abstract class OidcService {
           resolve(chunks)
         })
       })
+      if (body !== undefined) {
+        req.write(body)
+      }
       req.on('error', (error) => {
         const authError = new CoreError(`request client error occur! param: ${JSON.stringify(url)} err :${error.message}`)
         reject(authError)

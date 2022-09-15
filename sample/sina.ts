@@ -1,6 +1,6 @@
 import http from 'http'
 
-import { SinaOidc } from './service/sina'
+import { SinaOidc } from '../service/sina'
 
 export const server = http
   .createServer((req, res) => {
