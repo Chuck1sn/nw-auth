@@ -3,6 +3,7 @@ import { OidcService } from './core'
 import { url as googleApi } from '../data/google'
 import * as GoogleDto from '../dto/google'
 import { AccessTokenError, UserInfoError } from '../error/error'
+import { URLSearchParams } from 'url'
 
 type Platform = 'google'
 export class GoogleOidc extends OidcService {
@@ -52,13 +53,16 @@ export class GoogleOidc extends OidcService {
       grant_type: 'authorization_code',
       redirect_uri: this.redirectUrl
     }
+    const searchParams = new URLSearchParams()
+    Object.entries(form).forEach(([k, v]) => {
+      searchParams.append(k, v)
+    })
     return await this.requestPromise(accessTokenUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      form
-    }).then((resp) => {
+      }
+    }, searchParams.toString()).then((resp) => {
       const result: GoogleDto.AccessTokenResp = JSON.parse(resp)
       if (result.access_token === undefined) {
         throw new AccessTokenError(
@@ -74,8 +78,8 @@ export class GoogleOidc extends OidcService {
 
   async getUserInfo (resp: OidcResp<'accessToken', Platform>): Promise<OidcResp<'userInfo', Platform>> {
     const userInfoUrl = new URL(googleApi.userInfo)
-    const options = { Authorization: `Bearer ${resp.result.access_token}` }
-    return await this.requestPromise(userInfoUrl, options).then((resp) => {
+    const headers = { Authorization: `Bearer ${resp.result.access_token}` }
+    return await this.requestPromise(userInfoUrl, headers).then((resp) => {
       const result: GoogleDto.UserInfoResp = JSON.parse(resp)
       if (result.sub === null) {
         throw new UserInfoError('userInfo response not valid')
