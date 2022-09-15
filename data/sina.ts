@@ -1,4 +1,4 @@
-const domian = 'https://api.weibo.com/'
+const domian = 'https://api.weibo.com'
 
 const endpoint = {
   redirectLogin: '/oauth2/authorize',
