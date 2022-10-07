@@ -24,7 +24,7 @@ export class TwitterOidc extends OidcService {
       redirect_uri: this.redirectUrl,
       scope: 'users.read',
       state: super.createState(),
-      code_challenge: 'test',
+      code_challenge: Math.floor(Math.random() * 99999).toString(),
       code_challenge_method: 'plain'
     }
     Object.entries(param).forEach(([k, v]) => {
@@ -50,7 +50,7 @@ export class TwitterOidc extends OidcService {
       code,
       client_id: this.clientId,
       redirect_uri: this.redirectUrl,
-      code_verifier: 'test'
+      code_verifier: 'challenge'
     }
     const searchParams = new URLSearchParams()
     Object.entries(form).forEach(([k, v]) => {

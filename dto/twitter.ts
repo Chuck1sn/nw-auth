@@ -5,7 +5,7 @@ export interface RedirectReq {
   scope: 'users.read' // tweet.read%20users.read%20follows.read%20follows.write
   state: string
   code_challenge: string
-  code_challenge_method: 'plain' // TODO random string on production
+  code_challenge_method: 'plain'
 }
 
 export interface CallbackReq {
@@ -22,14 +22,9 @@ export interface AccessTokenReq {
   'code_verifier': string
 }
 
-// TODO find real accessToken resp
 export interface AccessTokenResp {
   access_token: string
-  expires_in: number // seconds -> 3920
-  scope: string
-  refresh_token?: string
-  token_type: 'Bearer'
-  id_token: string
+  token_type: 'bearer'
 }
 
 export interface UserInfoReqHeader {
