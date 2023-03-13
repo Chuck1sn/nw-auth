@@ -3,7 +3,8 @@ import http from 'http'
 import { GithubOidc } from '../service/github'
 
 export const server = http
-  .createServer((req, res) => {
+  .createServer
+  ((req, res) => {
     const reqUrl = req.url as string
     const url = new URL(reqUrl, `https://${req.headers.host as string}`)
     if (url.pathname === '/github/login') {
