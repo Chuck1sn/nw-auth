@@ -20,7 +20,7 @@ describe('feishu oidc flow', function () {
     let redirectUrl
     let state
     it('redirect user to feishu login page', async function () {
-      return await testDouble.redirectLogin().then((resp) => {
+      await testDouble.redirectLogin().then((resp) => {
         assert.equal(resp.type, 'redirect')
         redirectUrl = new URL(resp.result)
         assert.equal(redirectUrl.searchParams.get('redirect_uri'), callback)
@@ -84,7 +84,7 @@ describe('feishu oidc flow', function () {
             expire: faker.datatype.number()
           })
         )
-        return await testDouble.getAccessToken(mockCode, mockState).then((resp) => {
+        await testDouble.getAccessToken(mockCode, mockState).then((resp) => {
           expect(requestPromise.calledOnce)
           expect(getAppAccessToken.calledOnce)
           assert.equal(resp.type, 'accessToken')
@@ -122,7 +122,7 @@ describe('feishu oidc flow', function () {
           type: 'accessToken',
           result: mockAccessTokenResp
         } as const
-        return await testDouble.getUserInfo(req).then((resp) => {
+        await testDouble.getUserInfo(req).then((resp) => {
           expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
           assert.equal(resp.result.data.open_id, stubValue.data.open_id)

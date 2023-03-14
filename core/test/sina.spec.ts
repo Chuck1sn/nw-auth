@@ -20,7 +20,7 @@ describe('sina oidc flow', function () {
     let redirectUrl
     let state
     it('redirect user to sina login page', async function () {
-      return await testDouble.redirectLogin().then((result) => {
+      await testDouble.redirectLogin().then((result) => {
         assert.equal(result.type, 'redirect')
         redirectUrl = new URL(result.result)
         assert.equal(redirectUrl.searchParams.get('redirect_uri'), callback)
@@ -87,7 +87,7 @@ describe('sina oidc flow', function () {
             uid: faker.datatype.string() // 授权用户唯一标识
           }
         } as const
-        return await testDouble.getUserInfo(req).then((resp) => {
+        await testDouble.getUserInfo(req).then((resp) => {
           expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
           assert.equal(resp.result.uid, stubValue.uid)
