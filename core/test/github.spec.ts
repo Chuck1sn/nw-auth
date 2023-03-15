@@ -20,7 +20,7 @@ describe('github oidc flow', function () {
     let redirectUrl
     let state
     it('redirect user to github login page', async function () {
-      return await testDouble.redirectLogin().then((resp) => {
+      await testDouble.redirectLogin().then((resp) => {
         assert.equal(resp.type, 'redirect')
         redirectUrl = new URL(resp.result)
         assert.equal(redirectUrl.searchParams.get('redirect_uri'), callback)
@@ -82,7 +82,7 @@ describe('github oidc flow', function () {
             token_type: faker.datatype.string()
           }
         } as const
-        return await testDouble.getUserInfo(req).then((resp) => {
+        await testDouble.getUserInfo(req).then((resp) => {
           expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
           assert.equal(resp.result.id, stubValue.id)
