@@ -1,6 +1,9 @@
 <script>
 	import Wechat from '../components/fieldset/Wechat.svelte'
 	import Github from '../components/fieldset/Github.svelte'
+	import Sina from '../components/fieldset/Sina.svelte'
+	import Google from '../components/fieldset/Google.svelte'
+	import Feishu from '../components/fieldset/Feishu.svelte'
 
 	let platforms = ['wechat', 'feishu', 'github', 'sina', 'google']
 	let selected = 'wechat'
@@ -19,6 +22,12 @@
 		<Wechat />
 	{:else if selected === 'github'}
 		<Github />
+	{:else if selected === 'sina'}
+		<Sina />
+	{:else if selected === 'google'}
+		<Google />
+	{:else if selected === 'feishu'}
+		<Feishu />
 	{:else}
 		<Wechat />
 	{/if}
@@ -45,8 +54,5 @@
 	}
 	select::-ms-expand {
 		display: none;
-	}
-	select option {
-		background-color: white;
 	}
 </style>

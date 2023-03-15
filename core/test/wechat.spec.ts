@@ -28,7 +28,7 @@ describe('wechat oidc flow', function () {
     let redirectUrl
     let state
     it('redirect user to wechat login page', async function () {
-      return await testDouble.redirectLogin().then((result) => {
+      await testDouble.redirectLogin().then((result) => {
         assert.equal(result.type, 'redirect')
         redirectUrl = new URL(result.result)
         assert.equal(redirectUrl.searchParams.get('redirect_uri'), callback)
@@ -100,7 +100,7 @@ describe('wechat oidc flow', function () {
             unionid: faker.datatype.string()
           }
         } as const
-        return await testDouble.getUserInfo(accessTokenResp).then((resp) => {
+        await testDouble.getUserInfo(accessTokenResp).then((resp) => {
           expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
           assert.equal(resp.result.openid, stubValue.openid)

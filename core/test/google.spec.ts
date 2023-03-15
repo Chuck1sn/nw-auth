@@ -20,7 +20,7 @@ describe('google oidc flow', function () {
     let redirectUrl
     let state
     it('redirect user to google login page', async function () {
-      return await testDouble.redirectLogin().then((resp) => {
+      await testDouble.redirectLogin().then((resp) => {
         assert.equal(resp.type, 'redirect')
         redirectUrl = new URL(resp.result)
         assert.equal(redirectUrl.searchParams.get('redirect_uri'), callback)
@@ -59,7 +59,7 @@ describe('google oidc flow', function () {
           .returns(
             Promise.resolve(JSON.stringify(mockAccessTokenResp))
           )
-        return await testDouble.getAccessToken(mockCode, mockState).then((resp) => {
+        await testDouble.getAccessToken(mockCode, mockState).then((resp) => {
           expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'accessToken')
           assert.equal(resp.result.access_token, mockAccessTokenResp.access_token)
@@ -83,7 +83,7 @@ describe('google oidc flow', function () {
           type: 'accessToken',
           result: mockAccessTokenResp
         } as const
-        return await testDouble.getUserInfo(req).then((resp) => {
+        await testDouble.getUserInfo(req).then((resp) => {
           expect(requestPromise.calledOnce)
           assert.equal(resp.type, 'userInfo')
           assert.equal(resp.result.sub, stubValue.sub)
