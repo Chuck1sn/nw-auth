@@ -4,8 +4,9 @@
 	import Sina from '../components/fieldset/Sina.svelte'
 	import Google from '../components/fieldset/Google.svelte'
 	import Feishu from '../components/fieldset/Feishu.svelte'
+	import Twitter from '../components/fieldset/Twitter.svelte'
 
-	let platforms = ['wechat', 'feishu', 'github', 'sina', 'google']
+	let platforms = ['wechat', 'feishu', 'github', 'sina', 'google', 'twitter']
 	let selected = 'wechat'
 </script>
 
@@ -28,6 +29,8 @@
 		<Google />
 	{:else if selected === 'feishu'}
 		<Feishu />
+	{:else if selected === 'twitter'}
+		<Twitter />
 	{:else}
 		<Wechat />
 	{/if}
