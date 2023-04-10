@@ -1,16 +1,19 @@
-<script>
+<script lang="ts">
 	import Wechat from '../components/fieldset/Wechat.svelte'
 	import Github from '../components/fieldset/Github.svelte'
 	import Sina from '../components/fieldset/Sina.svelte'
 	import Google from '../components/fieldset/Google.svelte'
 	import Feishu from '../components/fieldset/Feishu.svelte'
 	import Twitter from '../components/fieldset/Twitter.svelte'
+	import { authApi } from '../config/api'
+	import type { PageData } from './$types'
 
 	let platforms = ['wechat', 'feishu', 'github', 'sina', 'google', 'twitter']
 	let selected = 'wechat'
+	export let data: PageData
 </script>
 
-<form action="" method="post">
+<form action={authApi} method="post" enctype="application/x-www-form-urlencoded">
 	<h1>Platform Server Info</h1>
 	<p>
 		<select name="platform" bind:value={selected}>
@@ -22,7 +25,7 @@
 	{#if selected === 'wechat'}
 		<Wechat />
 	{:else if selected === 'github'}
-		<Github />
+		<Github url={data.url} />
 	{:else if selected === 'sina'}
 		<Sina />
 	{:else if selected === 'google'}

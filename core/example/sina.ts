@@ -26,7 +26,7 @@ export const server = http
       } else {
         console.log('handle user login callback ->', url)
         oidcService
-          .processOidc(callback, code, state)
+          .processOidc(code, state)
           .then((oidcResp) => {
             if (oidcResp.type === 'userInfo') {
               console.info(

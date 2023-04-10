@@ -1,10 +1,11 @@
-import * as WechatDto from './wechat'
-import * as SinaDto from './sina'
-import * as FeishuDto from './feishu'
-import * as GithubDto from './github'
-import * as GoogleDto from './google'
+import type * as WechatDto from './wechat'
+import type * as SinaDto from './sina'
+import type * as FeishuDto from './feishu'
+import type * as GithubDto from './github'
+import type * as GoogleDto from './google'
+import type * as TwitterDto from './twitter'
 
-export type Platform = 'wechat' | 'sina' | 'feishu' | 'github' | 'google'
+export type Platform = 'wechat' | 'sina' | 'feishu' | 'github' | 'google' | 'twitter'
 export interface OidcResp<E extends keyof FlowResult<P>, P extends Platform> {
   type: E
   result: FlowResult<P>[E]
@@ -22,6 +23,7 @@ export interface PlatformAccessTokenResp {
   feishu: FeishuDto.AccessTokenResp
   github: GithubDto.AccessTokenResp
   google: GoogleDto.AccessTokenResp
+  twitter: TwitterDto.AccessTokenResp
 }
 
 export interface PlatformUserInfoResp {
@@ -30,4 +32,5 @@ export interface PlatformUserInfoResp {
   feishu: FeishuDto.UserInfoResp
   github: GithubDto.UserInfoResp
   google: GoogleDto.UserInfoResp
+  twitter: TwitterDto.UserInfoResp
 }

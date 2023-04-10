@@ -2,7 +2,7 @@ import { OidcResp, Platform } from '../dto/common'
 import { OidcService } from '../service/core'
 
 export class OidcServiceStub extends OidcService {
-  async redirectLogin (redirectUrl: string): Promise<OidcResp<'redirect', Platform>> {
+  async redirectLogin (): Promise<OidcResp<'redirect', Platform>> {
     throw new Error('Method not implemented.')
   }
 

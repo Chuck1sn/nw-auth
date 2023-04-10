@@ -15,7 +15,7 @@ interface CallbackReq {
   scop: string
 }
 
-interface CallBackReqError{
+interface CallBackReqError {
   error: string
 }
 

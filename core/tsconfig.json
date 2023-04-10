@@ -21,6 +21,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "sourceMap": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
   },
 }

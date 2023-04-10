@@ -1,11 +1,11 @@
 import https from 'https'
-import { OidcResp, Platform } from '../dto/common'
+import { type OidcResp, type Platform } from '../dto/common'
 import { CoreError } from '../error/error'
 
 export abstract class OidcService {
   private static readonly stateCache = new Set()
 
-  abstract redirectLogin (redirectUrl: string): Promise<OidcResp<'redirect', Platform>>
+  abstract redirectLogin (): Promise<OidcResp<'redirect', Platform>>
 
   abstract getAccessToken (
     code: string,
@@ -16,9 +16,9 @@ export abstract class OidcService {
     resp: OidcResp<'accessToken', Platform>
   ): Promise<OidcResp<'userInfo', Platform>>
 
-  processOidc = async (redirect: string, code?: string, state?: string): Promise<OidcResp<'userInfo' | 'redirect', Platform>> => {
-    if (code === undefined) {
-      return await this.redirectLogin(redirect)
+  processOidc = async (code?: string | null, state?: string | null): Promise<OidcResp<'userInfo' | 'redirect', Platform>> => {
+    if (code === undefined || code === null) {
+      return await this.redirectLogin()
     } else {
       const accessTokenResult: OidcResp<'accessToken', Platform> = await this.getAccessToken(code, state as string)
       return await this.getUserInfo(accessTokenResult)

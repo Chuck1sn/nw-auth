@@ -1,6 +1,5 @@
 const domain = 'https://github.com/login'
 const apiDomain = 'https://api.github.com'
-
 const endpoint = {
   redirectLogin: '/oauth/authorize',
   accessToken: '/oauth/access_token',

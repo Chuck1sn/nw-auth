@@ -3,8 +3,7 @@ import http from 'http'
 import { GithubOidc } from '../service/github'
 
 export const server = http
-  .createServer
-  ((req, res) => {
+  .createServer((req, res) => {
     const reqUrl = req.url as string
     const url = new URL(reqUrl, `https://${req.headers.host as string}`)
     if (url.pathname === '/github/login') {
@@ -27,7 +26,7 @@ export const server = http
       } else {
         console.log('handle user login callback ->', url)
         oidcService
-          .processOidc(callback, code, state)
+          .processOidc(code, state)
           .then((oidcResp) => {
             if (oidcResp.type === 'userInfo') {
               console.info(

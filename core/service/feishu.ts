@@ -1,7 +1,7 @@
-import { OidcResp } from '../dto/common'
+import { type OidcResp } from '../dto/common'
 import { OidcService } from './core'
 import { url as feishuApi } from '../data/feishu'
-import * as FeishuDto from '../dto/feishu'
+import type * as FeishuDto from '../dto/feishu'
 import { AccessTokenError, AppAccessTokenError, UserInfoError } from '../error/error'
 
 type Platform = 'feishu'
