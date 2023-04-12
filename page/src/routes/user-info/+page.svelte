@@ -1,34 +1,39 @@
 <script lang="ts">
 	import type { PageData } from './$types'
-	import { onMount } from 'svelte'
 	import { userInfoApi } from '../../config/api'
 
 	export let data: PageData
-
-	let output = {}
-	onMount(async () => {
+	let fetchUserInfo = (async () => {
 		if (data.state && data.code) {
 			const uRLSearchParams = new URLSearchParams()
 			uRLSearchParams.append('state', data.state)
 			uRLSearchParams.append('code', data.code)
 			const resp = await fetch(`${userInfoApi}?${uRLSearchParams}`)
-			output = await resp.json()
+			let result = await resp.json()
+			return result
 		}
-	})
-
+	})()
 	let copyText = 'Copy to Clipboard'
 	let copyToClipboard = () => {
-		navigator.clipboard.writeText(JSON.stringify(output, null, 2))
+		navigator.clipboard.writeText(JSON.stringify('', null, 2))
 		copyText = 'copied!'
 	}
 </script>
 
+{@debug fetchUserInfo}
+
 <div>
 	<h1>UserInfo</h1>
-	<button class="copy-btn" on:click={copyToClipboard}>
-		<span>{copyText}</span>
-	</button>
-	<pre>{JSON.stringify(output, null, 2)}</pre>
+	{#await fetchUserInfo}
+		<p>loading...</p>
+	{:then userInfo}
+		<button class="copy-btn" on:click={copyToClipboard}>
+			<span>{copyText}</span>
+		</button>
+		<pre>{JSON.stringify(userInfo, null, 2)}</pre>
+	{:catch error}
+		<p>{error}</p>
+	{/await}
 </div>
 
 <style>

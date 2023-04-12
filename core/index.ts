@@ -44,7 +44,7 @@ export const server = http
         if (oidcResp.type === 'userInfo') {
           console.info('request access token successful and get user info ->', oidcResp)
           res.writeHead(200, {
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': req.headers.origin
           })
           res.write(JSON.stringify(oidcResp.result))
           res.end()

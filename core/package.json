@@ -19,6 +19,8 @@
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc",
+    "restart": "npm run clean && npm run build && npm run start",
+    "restart:dev": "npm run clean && npm run build && npm run start:dev",
     "start": "node --es-module-specifier-resolution=node --loader ts-node/esm dist/index.js",
     "start:dev": "NODE_DEBUG=http node --inspect --es-module-specifier-resolution=node --loader ts-node/esm dist/index.js",
     "test": "mocha --exit --require ts-node/register test/**/*.ts",
