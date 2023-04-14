@@ -20,12 +20,14 @@ Node-Way-Auth is a third-party-login component developed by node-way that has sm
 It [supports](#platform) OIDC protocol-compliant authentication systems and is very easy to use.
 
 ---
+
 ## Content
+
 - [Node Way Auth](#node-way-auth)
   - [Content](#content)
   - [Download and Run](#download-and-run)
   - [Usage](#usage)
-      - [Type declaration](#type-declaration)
+    - [Type declaration](#type-declaration)
   - [Platform](#platform)
 
 ## Download and Run
@@ -57,8 +59,8 @@ npm run start
 # run example
 curl http(s)://<server_host>/github/login
 ```
-## Usage
 
+## Usage
 
 **example on github oidc**
 
@@ -72,52 +74,50 @@ import http from 'http'
 import { GithubOidc } from '../service/github'
 
 export const server = http
-  .createServer((req, res) => {
-    const reqUrl = req.url as string
-    const url = new URL(reqUrl, `https://${req.headers.host as string}`)
-    if (url.pathname === '/github/login') {
-      const callback = `https://${req.headers.host as string}/github/login`
-      const code = url.searchParams.get('code')
-      const state = url.searchParams.get('state')
-      const oidcService = new GithubOidc('<client_id>', '<client_secret>', callback, '<appName>')
-      if (code === null || state === null) {
-        oidcService.processOidc(callback).then((oidcResp) => {
-          if (oidcResp.type === 'redirect') {
-            console.info('redirect user to -> ', oidcResp)
-            res.writeHead(301, { Location: oidcResp.result as string })
-            res.end()
-          }
-        }).catch((err) => {
-          console.log(err)
-          res.writeHead(500)
-          res.end()
-        })
-      } else {
-        console.log('handle user login callback ->', url)
-        oidcService
-          .processOidc(callback, code, state)
-          .then((oidcResp) => {
-            if (oidcResp.type === 'userInfo') {
-              console.info(
-                'request access token successful and get user info ->',
-                oidcResp
-              )
-              res.write(JSON.stringify(oidcResp.result))
-              res.writeHead(200)
-              res.end()
-            }
-          })
-          .catch((error) => {
-            res.writeHead(500)
-            res.end()
-            console.error('backend channel error ->', error)
-          })
-      }
-    }
-  })
-  .listen(80)
-
-
+	.createServer((req, res) => {
+		const reqUrl = req.url as string
+		const url = new URL(reqUrl, `https://${req.headers.host as string}`)
+		if (url.pathname === '/github/login') {
+			const callback = `https://${req.headers.host as string}/github/login`
+			const code = url.searchParams.get('code')
+			const state = url.searchParams.get('state')
+			const oidcService = new GithubOidc('<client_id>', '<client_secret>', callback, '<appName>')
+			if (code === null || state === null) {
+				oidcService
+					.processOidc(callback)
+					.then((oidcResp) => {
+						if (oidcResp.type === 'redirect') {
+							console.info('redirect user to -> ', oidcResp)
+							res.writeHead(301, { Location: oidcResp.result as string })
+							res.end()
+						}
+					})
+					.catch((err) => {
+						console.log(err)
+						res.writeHead(500)
+						res.end()
+					})
+			} else {
+				console.log('handle user login callback ->', url)
+				oidcService
+					.processOidc(callback, code, state)
+					.then((oidcResp) => {
+						if (oidcResp.type === 'userInfo') {
+							console.info('request access token successful and get user info ->', oidcResp)
+							res.write(JSON.stringify(oidcResp.result))
+							res.writeHead(200)
+							res.end()
+						}
+					})
+					.catch((error) => {
+						res.writeHead(500)
+						res.end()
+						console.error('backend channel error ->', error)
+					})
+			}
+		}
+	})
+	.listen(80)
 ```
 
 #### Type declaration
@@ -170,10 +170,10 @@ export interface UserInfoResp {
 
 ## Platform
 
-| Platform                                                                       | Constructor                                                 | Type declaration      | Example                 |
-| ------------------------------------------------------------------------------ | ----------------------------------------------------------- | --------------------- | ----------------------- |
-| ![wechat](https://img.shields.io/badge/wechat-white?style=flat&logo=wechat)    | ```WechatOidc<appid,appsecret,redirectUrl>```               | ```dto/wechat.d.ts``` |                         |
-| ![sina](https://img.shields.io/badge/sina-red?style=flat&logo=sinaweibo)       | ```SinaOidc<clientId,clientSecret,redirectUrl>```           | ```dto/sina.d.ts```   | ```example/sina.ts```   |
-| ![feishu](https://img.shields.io/badge/feishu-white?style=flat&logo=bytedance) | ```FeishuOidc<appId,appSecret,appTicket,redirectUrl>```     | ```dto/feishu.d.ts``` |                         |
-| ![github](https://img.shields.io/badge/github-black?style=flat&logo=github)    | ```GithubOidc<clientId,clientSecret,redirectUrl,appName>``` | ```dto/github.d.ts``` | ```example/github.ts``` |
-| ![google](https://img.shields.io/badge/google-white?style=flat&logo=google)    | ```GoogleOidc<clientId,clientSecret,redirectUrl>```         | ```dto/google.d.ts``` | ```example/google.ts``` |
+| Platform                                                                       | Constructor                                             | Type declaration  | Example             |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------- | ----------------- | ------------------- |
+| ![wechat](https://img.shields.io/badge/wechat-white?style=flat&logo=wechat)    | `WechatOidc<appid,appsecret,redirectUrl>`               | `dto/wechat.d.ts` |                     |
+| ![sina](https://img.shields.io/badge/sina-red?style=flat&logo=sinaweibo)       | `SinaOidc<clientId,clientSecret,redirectUrl>`           | `dto/sina.d.ts`   | `example/sina.ts`   |
+| ![feishu](https://img.shields.io/badge/feishu-white?style=flat&logo=bytedance) | `FeishuOidc<appId,appSecret,appTicket,redirectUrl>`     | `dto/feishu.d.ts` |                     |
+| ![github](https://img.shields.io/badge/github-black?style=flat&logo=github)    | `GithubOidc<clientId,clientSecret,redirectUrl,appName>` | `dto/github.d.ts` | `example/github.ts` |
+| ![google](https://img.shields.io/badge/google-white?style=flat&logo=google)    | `GoogleOidc<clientId,clientSecret,redirectUrl>`         | `dto/google.d.ts` | `example/google.ts` |
