@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte'
 	import type { PageData } from './$types'
 	import { userInfoApi } from '../../config/api'
+	import { error } from '@sveltejs/kit'
+
 	export let data: PageData
 	let userInfo = 'loading...'
 	let copyText = 'Copy to Clipboard'
@@ -13,15 +15,23 @@
 		const uRLSearchParams = new URLSearchParams()
 		uRLSearchParams.append('state', data.state)
 		uRLSearchParams.append('code', data.code)
-		const resp = await fetch(`${userInfoApi}?${uRLSearchParams}`, {
-			headers: {
-				origin: data.origin
-			}
-		})
-		const userInfoJson = await resp.json()
-		userInfo = JSON.stringify(userInfoJson, null, 2)
+		try {
+			const resp = await fetch(`${userInfoApi}?${uRLSearchParams}`, {
+				headers: {
+					origin: data.origin
+				}
+			})
+			const userInfoJson = await resp.json()
+			userInfo = JSON.stringify(userInfoJson, null, 2)
+		} catch (err) {
+			console.error(err)
+			userInfo = 'fetch userInfo failed!'
+			throw error(500, { message: 'fetch userInfo failed!' })
+		}
 	})
 </script>
+
+{@debug userInfo}
 
 <div>
 	<h1>UserInfo</h1>

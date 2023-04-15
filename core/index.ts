@@ -7,8 +7,20 @@ import { parse, type ParsedUrlQuery } from 'querystring'
 // import { GithubOidc } from './service/github'
 import { type OidcService } from './service/core'
 import { GithubOidc } from './service/github'
+import { GoogleOidc } from './service/google'
+import { FeishuOidc } from './service/feishu'
+import { SinaOidc } from './service/sina'
+import { TwitterOidc } from './service/twitter'
+import { WechatOidc } from './service/wechat'
 
-let storedOidc: OidcService
+let _storedOidc: OidcService
+
+function setStoredOidc(oidc): void {
+	_storedOidc = oidc
+}
+function storedOidc(): OidcService {
+	return _storedOidc
+}
 
 export const server = http
 	.createServer((req, res) => {
@@ -22,8 +34,10 @@ export const server = http
 			})
 			req.on('end', () => {
 				console.log('🚀 ~ req.on ~ body:', body)
-				platformFacade(parse(body))
-					?.processOidc()
+				const oidc = createOidcBy(parse(body))
+				setStoredOidc(oidc)
+				oidc
+					.processOidc()
 					.then((oidcResp) => {
 						if (oidcResp.type === 'redirect') {
 							console.info('redirect user to -> ', oidcResp)
@@ -43,7 +57,7 @@ export const server = http
 			const code = url.searchParams.get('code')
 			const state = url.searchParams.get('state')
 			console.log('handle user login callback ->', url)
-			storedOidc
+			storedOidc()
 				.processOidc(code, state)
 				.then((oidcResp) => {
 					if (oidcResp.type === 'userInfo') {
@@ -66,13 +80,31 @@ export const server = http
 	})
 	.listen(80)
 
-function platformFacade(body: ParsedUrlQuery): OidcService | null {
-	const platform = body.platform
+function createOidcBy(body: ParsedUrlQuery): OidcService {
 	let result
-	switch (platform) {
+	switch (body.platform) {
 		case 'github': {
 			result = new GithubOidc(body.clientId, body.clientSecret, body.callBack, body.appName)
-			storedOidc = result
+			break
+		}
+		case 'google': {
+			result = new GoogleOidc(body.clientId, body.clientSecret, body.callBack)
+			break
+		}
+		case 'feishu': {
+			result = new FeishuOidc(body.appId, body.appSecret, body.appTicket, body.callBack)
+			break
+		}
+		case 'sina': {
+			result = new SinaOidc(body.clientId, body.clientSecret, body.callBack)
+			break
+		}
+		case 'twitter': {
+			result = new TwitterOidc(body.clientId, body.callBack)
+			break
+		}
+		case 'wechat': {
+			result = new WechatOidc(body.appId, body.secret, body.callBack)
 			break
 		}
 	}
