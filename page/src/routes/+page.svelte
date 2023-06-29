@@ -6,11 +6,9 @@
 	import Feishu from '../components/fieldset/Feishu.svelte'
 	import Twitter from '../components/fieldset/Twitter.svelte'
 	import { authApi } from '../config/api'
-	import type { PageData } from './$types'
 
 	let platforms = ['wechat', 'feishu', 'github', 'sina', 'google', 'twitter']
 	let selected = 'wechat'
-	export let data: PageData
 </script>
 
 <form action={authApi} method="post" enctype="application/x-www-form-urlencoded">
@@ -25,7 +23,7 @@
 	{#if selected === 'wechat'}
 		<Wechat />
 	{:else if selected === 'github'}
-		<Github url={data.url} />
+		<Github />
 	{:else if selected === 'sina'}
 		<Sina />
 	{:else if selected === 'google'}

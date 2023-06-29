@@ -1,10 +1,6 @@
 import http from 'http'
 
-// import { SinaOidc } from './service/sina'
 import { parse, type ParsedUrlQuery } from 'querystring'
-// import { type Platform } from './dto/common'
-// import { WechatOidc } from './service/wechat'
-// import { GithubOidc } from './service/github'
 import { type OidcService } from './service/core'
 import { GithubOidc } from './service/github'
 import { GoogleOidc } from './service/google'
@@ -84,27 +80,27 @@ function createOidcBy(body: ParsedUrlQuery): OidcService {
 	let result
 	switch (body.platform) {
 		case 'github': {
-			result = new GithubOidc(body.clientId, body.clientSecret, body.callBack, body.appName)
+			result = new GithubOidc(body.clientId, body.clientSecret, body.callback, body.appName)
 			break
 		}
 		case 'google': {
-			result = new GoogleOidc(body.clientId, body.clientSecret, body.callBack)
+			result = new GoogleOidc(body.clientId, body.clientSecret, body.callback)
 			break
 		}
 		case 'feishu': {
-			result = new FeishuOidc(body.appId, body.appSecret, body.appTicket, body.callBack)
+			result = new FeishuOidc(body.appId, body.appSecret, body.appTicket, body.callback)
 			break
 		}
 		case 'sina': {
-			result = new SinaOidc(body.clientId, body.clientSecret, body.callBack)
+			result = new SinaOidc(body.clientId, body.clientSecret, body.callback)
 			break
 		}
 		case 'twitter': {
-			result = new TwitterOidc(body.clientId, body.callBack)
+			result = new TwitterOidc(body.clientId, body.callback)
 			break
 		}
 		case 'wechat': {
-			result = new WechatOidc(body.appId, body.secret, body.callBack)
+			result = new WechatOidc(body.appId, body.secret, body.callback)
 			break
 		}
 	}

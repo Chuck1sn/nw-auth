@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let url: string
+	import { page } from '$app/stores'
 </script>
 
 <fieldset>
@@ -8,7 +8,14 @@
 	<p><label>clientSecret:<input type="text" name="clientSecret" required /></label></p>
 	<p><label>appName:<input type="text" name="appName" required /></label></p>
 	<p>
-		<label>callback:<input type="url" name="callBack" value="{url}user-info" required /></label>
+		<label
+			>callback:<input
+				type="url"
+				name="callback"
+				value="{$page.url.origin}/user-info"
+				required
+			/></label
+		>
 	</p>
 	<p><input type="submit" value="submit" /></p>
 </fieldset>
