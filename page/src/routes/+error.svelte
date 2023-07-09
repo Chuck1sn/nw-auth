@@ -1,5 +1,5 @@
 <script>
 </script>
 
-<h1>UnException Error!</h1>
-<p>please confirm your network or filling data</p>
+<h1>Unknown Error!</h1>
+<p>Please confirm your network or filling data</p>

@@ -42,21 +42,19 @@
 		display: flex;
 		font-size: 1.5em;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
+		flex: 2;
 	}
 
 	select {
 		appearance: none;
-		font-size: 1em;
-		padding: 0.5em;
 		background-color: #eee;
-		border: none;
-		border-radius: 0.25em;
+		border: solid black;
+		font-size: 1.2em;
+		text-align: center;
+		padding: 0.3em;
+		border-radius: 0.3em;
 		box-shadow: inset 0 0 0.5em rgba(0, 0, 0, 0.2);
 		cursor: pointer;
-	}
-	select::-ms-expand {
-		display: none;
 	}
 </style>

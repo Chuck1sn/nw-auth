@@ -2,6 +2,7 @@ input {
 	font-size: 1em;
 	margin-left: 0.5em;
 }
+
 input[type='submit'] {
 	background-color: rgb(123, 122, 122);
 	color: white;
@@ -10,7 +11,7 @@ input[type='submit'] {
 	margin-left: 0em;
 }
 input[type='submit']:hover {
-	background-color: rgb(150, 149, 149);
+	background-color: rgb(85, 85, 85);
 }
 fieldset {
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
