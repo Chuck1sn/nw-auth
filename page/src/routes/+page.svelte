@@ -13,13 +13,11 @@
 
 <form action={authApi} method="post" enctype="application/x-www-form-urlencoded">
 	<h1>Platform Server Info</h1>
-	<p>
-		<select name="platform" bind:value={selected}>
-			{#each platforms as platform}
-				<option value={platform}>{platform}</option>
-			{/each}
-		</select>
-	</p>
+	<select name="platform" bind:value={selected}>
+		{#each platforms as platform}
+			<option value={platform}>{platform}</option>
+		{/each}
+	</select>
 	{#if selected === 'wechat'}
 		<Wechat />
 	{:else if selected === 'github'}
@@ -38,23 +36,22 @@
 </form>
 
 <style>
+	:global(body * + *) {
+		margin-top: 2rem;
+	}
 	form {
+		font-size: 2rem;
 		display: flex;
-		font-size: 1.5em;
 		flex-direction: column;
 		align-items: center;
-		flex: 2;
 	}
-
+	form > h1 {
+		margin-bottom: 0;
+	}
 	select {
-		appearance: none;
-		background-color: #eee;
+		font-size: 1.5rem;
 		border: solid black;
-		font-size: 1.2em;
 		text-align: center;
-		padding: 0.3em;
-		border-radius: 0.3em;
-		box-shadow: inset 0 0 0.5em rgba(0, 0, 0, 0.2);
 		cursor: pointer;
 	}
 </style>

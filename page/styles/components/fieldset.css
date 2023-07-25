@@ -1,6 +1,7 @@
 input {
 	display: block;
 	font-size: 1rem;
+	width: 100%;
 }
 
 input[type='submit'] {
@@ -8,11 +9,13 @@ input[type='submit'] {
 	color: white;
 	border: outset;
 	cursor: pointer;
-	margin-left: 0rem;
+	width: 30%;
 }
 input[type='submit']:hover {
 	background-color: rgb(85, 85, 85);
 }
 fieldset {
+	width: 30%;
+	text-align: justify;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
