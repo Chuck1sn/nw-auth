@@ -54,4 +54,7 @@
 		text-align: center;
 		cursor: pointer;
 	}
+	select:focus {
+		outline: none;
+	}
 </style>

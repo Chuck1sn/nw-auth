@@ -5,14 +5,18 @@ input {
 }
 
 input[type='submit'] {
-	background-color: rgb(123, 122, 122);
+	background-color: rgb(85, 85, 85);
 	color: white;
 	border: outset;
 	cursor: pointer;
 	width: 30%;
+	transition: background-color 0.3s linear;
 }
 input[type='submit']:hover {
-	background-color: rgb(85, 85, 85);
+	background-color: rgb(123, 122, 122);
+}
+input:focus {
+	outline: none;
 }
 fieldset {
 	width: 30%;
