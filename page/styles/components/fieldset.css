@@ -25,3 +25,7 @@ fieldset {
 	/* box-shadow: 2px 2px 5px 1px hsl(0, 0%, 1%); */
 	border-radius: 0.2em;
 }
+
+fieldset input + input {
+	margin: 2em;
+}
