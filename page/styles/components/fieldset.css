@@ -11,6 +11,7 @@ input[type='submit'] {
 	cursor: pointer;
 	width: 30%;
 	transition: background-color 0.3s linear;
+	border-radius: 0.2em;
 }
 input[type='submit']:hover {
 	background-color: rgb(123, 122, 122);
@@ -21,5 +22,6 @@ input:focus {
 fieldset {
 	width: 30%;
 	text-align: justify;
-	box-shadow: 2px 2px 5px 1px hsl(0, 0%, 30%);
+	/* box-shadow: 2px 2px 5px 1px hsl(0, 0%, 1%); */
+	border-radius: 0.2em;
 }
