@@ -15,16 +15,19 @@ export abstract class OidcService {
 
 	processOidc = async (
 		code?: string | null,
-		state?: string | null
+		state?: string | null,
+		error?: string | null
 	): Promise<OidcResp<'userInfo' | 'redirect', Platform>> => {
-		if (code === undefined || code === null) {
-			return await this.redirectLogin()
-		} else {
+		if (error !== null && error !== undefined) {
+			throw new Error(error)
+		} else if (code !== undefined && code !== null && state !== undefined && state !== null) {
 			const accessTokenResult: OidcResp<'accessToken', Platform> = await this.getAccessToken(
 				code,
-				state as string
+				state
 			)
 			return await this.getUserInfo(accessTokenResult)
+		} else {
+			return await this.redirectLogin()
 		}
 	}
 

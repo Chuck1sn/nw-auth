@@ -35,11 +35,9 @@ export const server = http
 				oidc
 					.processOidc()
 					.then((oidcResp) => {
-						if (oidcResp.type === 'redirect') {
-							console.info('redirect user to -> ', oidcResp)
-							res.writeHead(301, { Location: oidcResp.result as string })
-							res.end()
-						}
+						console.info('redirect user to -> ', oidcResp)
+						res.writeHead(301, { Location: oidcResp.result as string })
+						res.end()
 					})
 					.catch((err) => {
 						console.log(err)
@@ -52,20 +50,19 @@ export const server = http
 		if (url.pathname === '/user-info') {
 			const code = url.searchParams.get('code')
 			const state = url.searchParams.get('state')
+			const error = url.searchParams.get('error')
 			console.log('handle user login callback ->', url)
 			storedOidc()
-				.processOidc(code, state)
+				.processOidc(code, state, error)
 				.then((oidcResp) => {
-					if (oidcResp.type === 'userInfo') {
-						console.info('request access token successful and get user info ->', oidcResp)
-						res.writeHead(200, {
-							'Access-Control-Allow-Origin': req.headers.origin,
-							'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-							Vary: 'Origin'
-						})
-						res.write(JSON.stringify(oidcResp.result))
-						res.end()
-					}
+					console.info('request access token successful and get user info ->', oidcResp)
+					res.writeHead(200, {
+						'Access-Control-Allow-Origin': req.headers.origin,
+						'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+						Vary: 'Origin'
+					})
+					res.write(JSON.stringify(oidcResp.result))
+					res.end()
 				})
 				.catch((error) => {
 					res.writeHead(500)

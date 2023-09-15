@@ -20,7 +20,7 @@
 		"clean": "tsc --build --clean",
 		"build": "tsc",
 		"start": "npm run clean && npm run build && node --es-module-specifier-resolution=node --loader ts-node/esm dist/index.js",
-		"start:dev": "NODE_DEBUG=http npm run clean && npm run build && node --inspect --es-module-specifier-resolution=node --loader ts-node/esm dist/index.js",
+		"dev": "NODE_DEBUG=http npm run clean && npm run build && node --inspect --es-module-specifier-resolution=node --loader ts-node/esm dist/index.js",
 		"test": "mocha --exit --require ts-node/register test/**/*.ts",
 		"prepublishOnly": "npm run clean & npm run build",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
