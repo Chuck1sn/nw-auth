@@ -20,12 +20,16 @@ input:focus {
 	outline: none;
 }
 fieldset {
-	width: 30%;
+	width: 20%;
 	text-align: justify;
 	/* box-shadow: 2px 2px 5px 1px hsl(0, 0%, 1%); */
 	border-radius: 0.2em;
 }
 
-fieldset input + input {
+fieldset > label {
+	font-size: 0.7em;
+}
+
+fieldset > input + input {
 	margin: 2em;
 }
