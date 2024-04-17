@@ -3,7 +3,7 @@
 </script>
 
 <fieldset>
-	<legend><img alt="sina" title="sina" src="sina.svg" width="96em" /></legend>
+	<legend><img alt="sina" title="sina" src="sina.svg" width="50em" /></legend>
 	<label>clientId:<input type="text" name="clientId" required /></label>
 	<label>clientSecret:<input type="text" name="clientSecret" required /></label>
 

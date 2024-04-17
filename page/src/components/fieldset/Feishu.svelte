@@ -3,7 +3,7 @@
 </script>
 
 <fieldset>
-	<legend><img alt="feishu" title="feishu" src="feishu.svg" width="96em" /></legend>
+	<legend><img alt="feishu" src="feishu.svg" width="50em" /></legend>
 	<label>appId:<input type="text" name="appId" required /></label>
 	<label>appSecret:<input type="text" name="appSecret" required /></label>
 	<label>appTicket:<input type="text" name="appTicket" required /></label>

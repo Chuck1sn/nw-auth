@@ -5,6 +5,7 @@
 	import { error } from '@sveltejs/kit'
 
 	export let data: PageData
+	let platform: string
 	let userInfo = 'loading...'
 	let copyText = 'Copy to Clipboard'
 	let copyToClipboard = () => {
@@ -15,6 +16,7 @@
 		const uRLSearchParams = new URLSearchParams()
 		uRLSearchParams.append('state', data.state)
 		uRLSearchParams.append('code', data.code)
+		platform = sessionStorage.getItem('platform') || 'wechat'
 		try {
 			const resp = await fetch(`${userInfoApi}?${uRLSearchParams}`, {
 				headers: {
@@ -31,22 +33,22 @@
 	})
 </script>
 
-{@debug userInfo}
-
 <div>
-	<h1>UserInfo</h1>
+	<img alt="github" title="github" src={platform + '.svg'} width="70em" />
+	<pre>{userInfo}</pre>
 	<button class="copy-btn" on:click={copyToClipboard}>
 		<span>{copyText}</span>
 	</button>
-	<pre>{userInfo}</pre>
 </div>
 
 <style>
 	div {
+		flex: 1;
 		display: flex;
-		font-size: 1.5em;
+		row-gap: 0.5em;
+		font-size: 1.2rem;
 		flex-direction: column;
-		justify-content: center;
+		padding-top: 5em;
 		align-items: center;
 	}
 	.copy-btn {

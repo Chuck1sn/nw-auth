@@ -3,7 +3,7 @@
 </script>
 
 <fieldset>
-	<legend><img alt="github" title="github" src="github.svg" width="96em" /></legend>
+	<legend><img alt="github" title="github" src="github.svg" width="50em" /></legend>
 	<label>clientId:<input type="text" name="clientId" required /></label>
 	<label>clientSecret:<input type="text" name="clientSecret" required /></label>
 	<label>appName:<input type="text" name="appName" required /></label>

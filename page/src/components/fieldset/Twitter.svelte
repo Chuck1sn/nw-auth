@@ -3,7 +3,7 @@
 </script>
 
 <fieldset>
-	<legend><img alt="twitter" title="twitter" src="twitter.svg" width="96em" /></legend>
+	<legend><img alt="twitter" title="twitter" src="twitter.svg" width="50em" /></legend>
 	<label>clientId:<input type="text" name="clientId" required /></label>
 	<label
 		>callback:<input

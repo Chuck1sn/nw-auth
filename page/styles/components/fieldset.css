@@ -1,35 +1,34 @@
-input {
+input[type='text'],
+input[type='url'] {
+	font-size: inherit;
 	display: block;
-	font-size: 1rem;
 	width: 100%;
 }
 
 input[type='submit'] {
-	background-color: rgb(85, 85, 85);
-	color: white;
-	border: outset;
+	font-size: 1.4rem;
+	background-color: rgb(239, 170, 181);
+	align-self: flex-end;
+	margin-top: 1.3em;
+	color: black;
+	border: solid 1.5px black;
 	cursor: pointer;
-	width: 30%;
 	transition: background-color 0.3s linear;
-	border-radius: 0.2em;
+	border-radius: var(--main-border-radius);
 }
 input[type='submit']:hover {
-	background-color: rgb(123, 122, 122);
+	background-color: rgb(247, 124, 124);
 }
 input:focus {
 	outline: none;
 }
+
 fieldset {
-	width: 20%;
-	text-align: justify;
-	/* box-shadow: 2px 2px 5px 1px hsl(0, 0%, 1%); */
-	border-radius: 0.2em;
-}
-
-fieldset > label {
-	font-size: 0.7em;
-}
-
-fieldset > input + input {
-	margin: 2em;
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+	row-gap: 0.3em;
+	width: 16%;
+	border: 3px solid black;
+	border-radius: var(--main-border-radius);
 }

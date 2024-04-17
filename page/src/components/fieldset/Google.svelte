@@ -3,7 +3,7 @@
 </script>
 
 <fieldset>
-	<legend><img alt="google" title="google" src="google.svg" width="96em" /></legend>
+	<legend><img alt="google" title="google" src="google.svg" width="50em" /></legend>
 	<label>clientId:<input type="text" name="clientId" required /></label>
 	<label>clientSecret:<input type="text" name="clientSecret" required /></label>
 

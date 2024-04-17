@@ -3,7 +3,7 @@
 </script>
 
 <fieldset>
-	<legend><img alt="wechat" title="wechat" src="wechat.svg" width="96em" /></legend>
+	<legend><img alt="wechat" title="wechat" src="wechat.svg" width="50em" /></legend>
 	<label>appId:<input type="text" name="appId" required /></label>
 	<label>appSecret:<input type="text" name="appSecret" required /></label>
 
@@ -15,7 +15,7 @@
 			required
 		/></label
 	>
-	<input type="submit" value="submit" />
+	<input type="submit" value="Submit" />
 </fieldset>
 
 <style>

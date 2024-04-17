@@ -6,13 +6,18 @@
 	import Feishu from '../components/fieldset/Feishu.svelte'
 	import Twitter from '../components/fieldset/Twitter.svelte'
 	import { authApi } from '../config/api'
+	import { afterUpdate } from 'svelte'
 
 	let platforms = ['wechat', 'feishu', 'github', 'sina', 'google', 'twitter']
 	let selected = 'wechat'
+	afterUpdate(() => {
+		$: {
+			sessionStorage.setItem('platform', selected)
+		}
+	})
 </script>
 
 <form action={authApi} method="post" enctype="application/x-www-form-urlencoded">
-	<h1>Platform Server Info</h1>
 	<select name="platform" bind:value={selected}>
 		{#each platforms as platform}
 			<option value={platform}>{platform}</option>
@@ -36,21 +41,20 @@
 </form>
 
 <style>
-	:global(body * + *) {
-		margin-top: 2rem;
-	}
 	form {
-		font-size: 2rem;
+		flex: 2;
+		font-size: 1.2rem;
+		padding-top: 5em;
 		display: flex;
+		row-gap: 0.5em;
 		flex-direction: column;
 		align-items: center;
 	}
-	form > h1 {
-		margin-bottom: 0;
-	}
 	select {
-		font-size: 1.5rem;
+		padding: 0.2em;
+		font-size: inherit;
 		border: solid black;
+		border-radius: var(--main-border-radius);
 		text-align: center;
 		cursor: pointer;
 	}

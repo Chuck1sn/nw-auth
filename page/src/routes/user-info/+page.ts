@@ -6,8 +6,8 @@ export const load = (async ({ url }) => {
 	const state = url.searchParams.get('state')
 	if (!(state && code)) {
 		throw error(500, {
-      message: 'invalid search params'
-    });
+			message: 'invalid search params'
+		})
 	}
-	return { origin:url.origin,code,state } 
+	return { origin: url.origin, code, state }
 }) satisfies PageLoad
