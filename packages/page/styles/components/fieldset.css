@@ -28,7 +28,7 @@ fieldset {
 	flex-direction: column;
 	padding: 1em;
 	row-gap: 0.3em;
-	width: 16%;
+	width: 18%;
 	border: 3px solid black;
 	border-radius: var(--main-border-radius);
 }

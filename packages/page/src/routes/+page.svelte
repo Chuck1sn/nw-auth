@@ -42,9 +42,9 @@
 
 <style>
 	form {
-		flex: 2;
+		flex: 1;
 		font-size: 1.2rem;
-		padding-top: 5em;
+		padding: 5em;
 		display: flex;
 		row-gap: 0.5em;
 		flex-direction: column;

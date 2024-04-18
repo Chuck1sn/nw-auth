@@ -11,6 +11,7 @@
 	.error-wrapper {
 		flex: 1;
 		display: flex;
+		padding: 5em;
 		flex-direction: column;
 		align-items: center;
 	}

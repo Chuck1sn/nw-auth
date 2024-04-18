@@ -1,0 +1,12 @@
+{
+  "name": "node-auth",
+  "version": "2.0.0",
+  "description": "Node way auth is a third party login component developed by node-way that has small code size, less interface exposure, and no runtime library.",
+  "main": "index.js",
+  "author": "chuck1in",
+  "license": "MIT",
+  "workspaces": [
+    "packages/core",
+    "packages/page"
+  ]
+}

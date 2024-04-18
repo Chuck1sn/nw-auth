@@ -26,10 +26,10 @@
 		font-size: 1.3em;
 		text-decoration: none;
 	}
+	a:visited {
+		color: rgb(0, 0, 0);
+	}
 	a:hover {
 		text-decoration: underline;
-	}
-	a:visited {
-		color: black;
 	}
 </style>

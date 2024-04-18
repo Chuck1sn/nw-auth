@@ -12,7 +12,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		height: 100%;
 		font-family: Arial, sans-serif;
 		text-align: center;
 	}
