@@ -15,9 +15,9 @@
 
 ---
 
-一款采用 node way 理念开发的三方登录组件。其代码体积小、接口暴露少、无运行时依赖。
+A three-party login component developed with the nodeway concept. Its code size is small, the interface is less exposed, and there is no runtime dependency.
 
-组件基于 OIDC 身份认证流程设计与开发，无论是常见的[三方登录平台](#支持平台)还是自部署的 OIDC 认证服务器都可以得到完善的支持。
+The components are designed and developed based on the OIDC authentication process, and can be fully supported whether it is a common [three-party login platform](#support-platform) or a self-deployed OIDC authentication server.
 
 ## Usage
 
@@ -25,7 +25,7 @@
 npm i nw-auth
 ```
 
-### Github 三方登录示例
+**Github Login**
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -85,7 +85,7 @@ export const server = http
 
 ```
 
-### OIDC 流程节点类型声明
+**OIDC Process Node Type Declaration**
 
 ```typescript
 
@@ -133,9 +133,9 @@ export interface UserInfoResp {
 
 ```
 
-## 测试
+## TEST
 
-### 单元测试
+### Unit Test
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -144,13 +144,13 @@ npm i
 npm run test -w packages/core
 ```
 
-### 自部署测试
+### Self-deployment Test
 
-便于开发人员确认库的运行状态，组件提供了一个自部署的 web 应用，以对接示例和可视化页面的方式提供三方登录平台的对接测试。
+It is convenient for developers to confirm the running status of the library, and the component provides a self-deploying web application that provides docking tests of the three-party login platform in the form of docking examples and visual pages.
 
 ![flow](flow.png)
 
-### 使用示例测试
+### Sample Test
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -162,7 +162,7 @@ npm run dev -w packages/core
 curl http(s)://<server_host>/github/login
 ```
 
-### 可视化测试
+### Visual Test
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -192,7 +192,7 @@ npm run dev -w packages/page
 
 ![page](page.png)
 
-## 支持平台
+## Support-Platform
 
 | Platform                                                                       | Constructor                                             | Type declaration  | Example             |
 | ------------------------------------------------------------------------------ | ------------------------------------------------------- | ----------------- | ------------------- |

@@ -11,13 +11,13 @@
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-**[EN](README.md)/[中文](README_CN.md)**
+**[中文](README.md)/[En](README_EN.md)**
 
 ---
 
-A three-party login component developed with the nodeway concept. Its code size is small, the interface is less exposed, and there is no runtime dependency.
+一款采用 node way 理念开发的三方登录组件。其代码体积小、接口暴露少、无运行时依赖。
 
-The components are designed and developed based on the OIDC authentication process, and can be fully supported whether it is a common [three-party login platform] (#support platform) or a self-deployed OIDC authentication server.
+组件基于 OIDC 身份认证流程设计与开发，无论是常见的[三方登录平台](#支持平台)还是自部署的 OIDC 认证服务器都可以得到完善的支持。
 
 ## Usage
 
@@ -25,7 +25,7 @@ The components are designed and developed based on the OIDC authentication proce
 npm i nw-auth
 ```
 
-**Github Login**
+### Github 三方登录示例
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -85,7 +85,7 @@ export const server = http
 
 ```
 
-**OIDC Process Node Type Declaration**
+### OIDC 流程节点类型声明
 
 ```typescript
 
@@ -133,9 +133,9 @@ export interface UserInfoResp {
 
 ```
 
-## TEST
+## 测试
 
-### Unit Test
+### 单元测试
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -144,13 +144,13 @@ npm i
 npm run test -w packages/core
 ```
 
-### Self-deployment Test
+### 自部署测试
 
-It is convenient for developers to confirm the running status of the library, and the component provides a self-deploying web application that provides docking tests of the three-party login platform in the form of docking examples and visual pages.
+便于开发人员确认库的运行状态，组件提供了一个自部署的 web 应用，以对接示例和可视化页面的方式提供三方登录平台的对接测试。
 
 ![flow](flow.png)
 
-### Sample Test
+### 使用示例测试
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -162,7 +162,7 @@ npm run dev -w packages/core
 curl http(s)://<server_host>/github/login
 ```
 
-### Visual Test
+### 可视化测试
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -192,7 +192,7 @@ npm run dev -w packages/page
 
 ![page](page.png)
 
-## Support Platform
+## 支持平台
 
 | Platform                                                                       | Constructor                                             | Type declaration  | Example             |
 | ------------------------------------------------------------------------------ | ------------------------------------------------------- | ----------------- | ------------------- |
