@@ -25,7 +25,7 @@ The components are designed and developed based on the OIDC authentication proce
 npm i nw-auth
 ```
 
-### Github Login Example
+**Github Login**
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -85,7 +85,7 @@ export const server = http
 
 ```
 
-### OIDC Process Node Type Declaration
+**OIDC Process Node Type Declaration**
 
 ```typescript
 
@@ -144,13 +144,13 @@ npm i
 npm run test -w packages/core
 ```
 
-### Self-deployment Testing
+### Self-deployment Test
 
 It is convenient for developers to confirm the running status of the library, and the component provides a self-deploying web application that provides docking tests of the three-party login platform in the form of docking examples and visual pages.
 
 ![flow](flow.png)
 
-### Sample Tests
+### Sample Test
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -162,7 +162,7 @@ npm run dev -w packages/core
 curl http(s)://<server_host>/github/login
 ```
 
-### Visual Testing
+### Visual Test
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
