@@ -11,17 +11,17 @@
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-**[中文](README.md)/[En](README_EN.md)**
+**[中文](README_CN.md)/[EN](README.md)**
 
 ---
 
-一款采用 node way 理念开发的三方登录组件。其特点为：
+A third-party login component developed with the node way philosophy. Its features include:
 
-- 🍒 代码体积小
-- 🍋 接口暴露少
-- 🥝 无运行时依赖
+- 🍒 Small code size
+- 🍋 Few exposed interfaces
+- 🥝 No runtime dependencies
 
-组件基于 OIDC 身份认证流程设计与开发，无论是常见的[三方登录平台](#支持平台)还是自部署的 OIDC 认证服务器都可以得到完善的支持。
+The component is designed and developed based on the OIDC authentication process, providing comprehensive support for both common [third-party login platforms](#supported-platforms) and self-deployed OIDC authentication servers.
 
 ## Usage
 
@@ -29,7 +29,7 @@
 npm i nw-auth
 ```
 
-### Github 三方登录示例
+### Github Third-party Login Example
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -89,7 +89,7 @@ export const server = http
 
 ```
 
-### OIDC 流程节点类型声明
+### OIDC Process Node Type Declaration
 
 ```typescript
 
@@ -137,9 +137,9 @@ export interface UserInfoResp {
 
 ```
 
-## 测试
+## Testing
 
-### 单元测试
+### Unit Testing
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -148,13 +148,13 @@ npm i
 npm run test -w packages/core
 ```
 
-### 自部署测试
+### Self-deployment Testing
 
-🎁 新版本的组件增加了一个自部署的 web 应用，以对接示例和可视化页面的方式提供三方登录平台的对接测试。
+🎁 The new version of the component adds a self-deployed web application, which provides docking tests for third-party login platforms in the form of docking examples and visualization pages.
 
 ![flow](flow.png)
 
-### 使用示例测试
+### Use Example Testing
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -166,7 +166,7 @@ npm run dev -w packages/core
 curl http(s)://<server_host>/github/login
 ```
 
-### 可视化测试
+### Visualization Testing
 
 ```shell
 git clone ... into ${NW-AUTH-HOME}
@@ -196,7 +196,7 @@ npm run dev -w packages/page
 
 ![page](page.png)
 
-## 支持平台
+## Supported Platforms
 
 | Platform                                                                       | Constructor                                             | Type declaration  | Example             |
 | ------------------------------------------------------------------------------ | ------------------------------------------------------- | ----------------- | ------------------- |
