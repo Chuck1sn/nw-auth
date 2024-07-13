@@ -1,4 +1,4 @@
-import { OidcResp, Platform } from '../dto/common'
+import { type OidcResp, type Platform } from '../dto/common'
 import { OidcService } from '../service/core'
 
 export class OidcServiceStub extends OidcService {
