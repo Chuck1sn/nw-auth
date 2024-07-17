@@ -6,17 +6,18 @@ import sinon from 'sinon'
 import chai from 'chai'
 // Load chai assertions
 import chaiAsPromised from 'chai-as-promised'
+import { TwitterOidc } from '../service/twitter'
 const expect = chai.expect
 const assert = chai.assert
 // Load chai-as-promised support
 chai.use(chaiAsPromised)
 
-describe('google oidc flow', function () {
+describe('twitter oidc flow', function () {
 	const callback = 'http://localhost/callback'
-	const testDouble = new GoogleOidc('clientId', 'clientSecret', callback)
+	const testDouble = new TwitterOidc('clientId', callback)
 	let mockState
 	let mockCode
-	describe('google oidc front channel', function () {
+	describe('twitter oidc front channel', function () {
 		let redirectUrl
 		let state
 		it('redirect user to google login page', async function () {
