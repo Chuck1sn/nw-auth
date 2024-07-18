@@ -1,5 +1,5 @@
 import { OidcService } from './core'
-import * as WechatDto from '../dto/wechat'
+import type * as WechatDto from '../dto/wechat'
 import { url as wechatApi } from '../data/wechat'
 import { OidcResp } from '../dto/common'
 import { AccessTokenError, UserInfoError } from '../error/error'
