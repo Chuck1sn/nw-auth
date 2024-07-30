@@ -1,4 +1,3 @@
-import { GoogleOidc } from '../service/google'
 import { describe, it } from 'mocha'
 import { faker } from '@faker-js/faker'
 import { AccessTokenError } from '../error/error'
@@ -20,7 +19,7 @@ describe('twitter oidc flow', function () {
 	describe('twitter oidc front channel', function () {
 		let redirectUrl
 		let state
-		it('redirect user to google login page', async function () {
+		it('redirect user to twitter login page', async function () {
 			await testDouble.redirectLogin().then((resp) => {
 				assert.equal(resp.type, 'redirect')
 				redirectUrl = new URL(resp.result)
@@ -36,12 +35,12 @@ describe('twitter oidc flow', function () {
 			callBack()
 		})
 	})
-	describe('google oidc backend channel', function () {
+	describe('twitter oidc backend channel', function () {
 		const mockAccessTokenResp = {
 			access_token: faker.datatype.string(),
 			expires_in: faker.datatype.number(), // seconds -> 3920
 			refresh_token: faker.datatype.string(),
-			scope: 'https://www.googleapis.com/auth/userinfo.profile',
+			scope: 'https://www.twitterapis.com/auth/userinfo.profile',
 			token_type: 'Bearer',
 			id_token: faker.datatype.string()
 		} as const
