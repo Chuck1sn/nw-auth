@@ -38,11 +38,7 @@ describe('twitter oidc flow', function () {
 	describe('twitter oidc backend channel', function () {
 		const mockAccessTokenResp = {
 			access_token: faker.datatype.string(),
-			expires_in: faker.datatype.number(), // seconds -> 3920
-			refresh_token: faker.datatype.string(),
-			scope: 'https://www.twitterapis.com/auth/userinfo.profile',
-			token_type: 'Bearer',
-			id_token: faker.datatype.string()
+			token_type: 'bearer'
 		} as const
 		describe('get access token by state and code', function () {
 			it('invalid state will get a invalid state error', async function () {
