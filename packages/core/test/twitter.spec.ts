@@ -67,7 +67,7 @@ describe('twitter oidc flow', function () {
 		describe('get user info by access token', function () {
 			it('get user info by valid access token', async function () {
 				const stubValue = {
-					sub: faker.datatype.string(),
+					id: faker.datatype.string(),
 					email: faker.datatype.string(),
 					verified_email: faker.datatype.boolean(),
 					picture: faker.internet.url()
@@ -82,7 +82,7 @@ describe('twitter oidc flow', function () {
 				await testDouble.getUserInfo(req).then((resp) => {
 					expect(requestPromise.calledOnce)
 					assert.equal(resp.type, 'userInfo')
-					assert.equal(resp.result.sub, stubValue.sub)
+					assert.equal(resp.result.data.id, stubValue.id)
 				})
 			})
 		})
