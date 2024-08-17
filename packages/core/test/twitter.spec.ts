@@ -68,9 +68,8 @@ describe('twitter oidc flow', function () {
 			it('get user info by valid access token', async function () {
 				const stubValue = {
 					id: faker.datatype.string(),
-					email: faker.datatype.string(),
-					verified_email: faker.datatype.boolean(),
-					picture: faker.internet.url()
+					name: faker.datatype.string(),
+					username: faker.datatype.boolean()
 				}
 				const requestPromise = sinon
 					.stub(testDouble, 'requestPromise')
