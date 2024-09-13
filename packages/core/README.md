@@ -5,7 +5,7 @@
 
 ![l](https://img.shields.io/badge/language-typescript-blue?)
 ![node](https://img.shields.io/badge/node-%5E14.19.3-yellowgreen)
-![test](https://img.shields.io/badge/tests-26%20passed%2C%200%20faild-critical)
+![test](https://img.shields.io/badge/tests-31%20passed%2C%200%20faild-critical)
 ![module](https://img.shields.io/badge/module-ESM-yellow)
 ![MIT](https://img.shields.io/badge/license-MIT-informational)
 
@@ -24,11 +24,11 @@ It [supports](#platform) OIDC protocol-compliant authentication systems and is v
 ## Content
 
 - [Node Way Auth](#node-way-auth)
-  - [Content](#content)
-  - [Download and Run](#download-and-run)
-  - [Usage](#usage)
-    - [Type declaration](#type-declaration)
-  - [Platform](#platform)
+	- [Content](#content)
+	- [Download and Run](#download-and-run)
+	- [Usage](#usage)
+			- [Type declaration](#type-declaration)
+	- [Platform](#platform)
 
 ## Download and Run
 
